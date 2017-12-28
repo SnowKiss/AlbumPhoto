@@ -11,9 +11,11 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,400,400);
+			root.setId("background");
+			Scene scene = new Scene(root,1316,900);
 			// Ceci est un test
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setTitle("Album Photo");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
