@@ -3,7 +3,7 @@
  * 
  */
 
-package application;
+package modeles;
 
 public class Photo {
 	

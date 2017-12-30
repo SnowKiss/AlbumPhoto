@@ -3,7 +3,7 @@
  * 
  */
 
-package application;
+package modeles;
 
 import java.util.ArrayList;
 import java.util.List;
