@@ -11,20 +11,20 @@ import java.util.List;
 public class Page {
 	
 	// Attributs
-	List<Photo> listePhotos;
+	List<PhotoSimple> listePhotos;
 	
 	// Constructeur
 	public Page() {
 		super();
-		this.listePhotos = new ArrayList<Photo>();
+		this.listePhotos = new ArrayList<PhotoSimple>();
 	}
 	
 	// Getters & Setters
-	public List<Photo> getListePhotos() {
+	public List<PhotoSimple> getListePhotos() {
 		return listePhotos;
 	}
 
-	public void setListePhotos(List<Photo> listePhotos) {
+	public void setListePhotos(List<PhotoSimple> listePhotos) {
 		this.listePhotos = listePhotos;
 	}
 }

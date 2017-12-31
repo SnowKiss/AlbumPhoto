@@ -5,13 +5,13 @@
 
 package modeles;
 
-public class Photo {
+public class PhotoSimple implements Photo {
 	
 	// Attributs
 	String titre;
 	
 	// Constructeur	
-	public Photo(String titre) {
+	public PhotoSimple(String titre) {
 		super();
 		this.titre = titre;
 	}
@@ -23,6 +23,12 @@ public class Photo {
 
 	public void setTitre(String titre) {
 		this.titre = titre;
+	}
+
+	@Override
+	public void draw() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

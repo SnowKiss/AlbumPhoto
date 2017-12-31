@@ -3,16 +3,16 @@ package vues;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+//import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+//import javafx.scene.image.Image;
+//import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import modeles.Main;
