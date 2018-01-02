@@ -1,5 +1,7 @@
 package modeles;
 
+import main.Main;
+
 public class Cadre extends PhotoDecorator {
 
 	public Cadre(Photo decoratedPhoto) {
@@ -7,15 +9,11 @@ public class Cadre extends PhotoDecorator {
 		// TODO Auto-generated constructor stub
 	}
 
-    @SuppressWarnings("unused")
-	private void drawCadre()
-    {
-        // afficher le cadre
-    }
-
 	@Override
-	public void draw() {
+	public void drawPhoto(Main main) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }

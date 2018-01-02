@@ -5,7 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="700.0" prefWidth="1200.0" styleClass="border" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.PhotoController">
+<BorderPane prefHeight="700.0" prefWidth="1200.0" styleClass="border" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.Controller">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -14,9 +14,20 @@
               <MenuItem mnemonicParsing="false" onAction="#ajouterPhoto" onMenuValidation="#ajouterPhoto" text="Ajouter une photo" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Aide">
+          <Menu mnemonicParsing="false" text="Page">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#ajouterPage" onMenuValidation="#ajouterPage" text="Ajouter une page" />
+            </items>
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#supprimerPage" onMenuValidation="#supprimerPage" text="Supprimer la page courante" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Navigation">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#pageSuivante" onMenuValidation="#pageSuivante" text="Page suivante" />
+            </items>
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#pagePrecedente" onMenuValidation="#pagePrecedente" text="Page précédente" />
             </items>
           </Menu>
         </menus>

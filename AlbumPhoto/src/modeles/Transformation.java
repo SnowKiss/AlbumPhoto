@@ -1,5 +1,7 @@
 package modeles;
 
+import main.Main;
+
 public class Transformation extends PhotoDecorator {
 
 	public Transformation(Photo decoratedPhoto) {
@@ -7,15 +9,11 @@ public class Transformation extends PhotoDecorator {
 		// TODO Auto-generated constructor stub
 	}
 
-    @SuppressWarnings("unused")
-	private void applyTransformation()
-    {
-        // appliquer la tranformation
-    }
-
 	@Override
-	public void draw() {
+	public void drawPhoto(Main main) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 }

@@ -19,7 +19,7 @@ public class Album {
 		super();
 		this.nom = nom;
 		this.listePages = new ArrayList<Page>();
-		this.listePages.add(new Page());
+		this.listePages.add(new Page(0));
 	}
 
 	// Getters & Setters

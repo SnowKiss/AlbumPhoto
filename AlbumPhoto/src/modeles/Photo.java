@@ -1,5 +1,8 @@
 package modeles;
 
+import main.Main;
+
 public interface Photo {
-	public void draw(); // dessine le rendu
+
+	public void drawPhoto(Main main);
 }
