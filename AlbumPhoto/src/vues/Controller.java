@@ -23,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.StageStyle;
 import main.Main;
 import modeles.Page;
 import modeles.Photo;
@@ -123,7 +122,7 @@ public class Controller {
 		main.getRoot().getChildren().get(0).setManaged(true);
 		main.getRoot().getChildren().get(0).setVisible(true);
 		// on affiche le numero de la page
-		Text t = new Text (550, 620, String.valueOf(main.getCurrentPage().getNumero()+1)+"/"+String.valueOf(main.getAlbum().getListePages().size()) );
+		Text t = new Text (624, 635, String.valueOf(main.getCurrentPage().getNumero()+1)+"/"+String.valueOf(main.getAlbum().getListePages().size()) );
 		main.getRoot().getChildren().addAll(t);
 	}
 

@@ -2,6 +2,6 @@
 .border{
     -fx-background-image: url("/vues/background.jpg");
     -fx-background-repeat: no-repeat;   
-    -fx-background-size: 1200 700;
+    -fx-background-size: 1000 700;
     -fx-background-position: center center;
 }

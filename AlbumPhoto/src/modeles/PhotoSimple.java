@@ -29,8 +29,8 @@ public class PhotoSimple implements Photo {
 		super();
 		this.titre = titre;
 		this.image = image;
-		this.x=200;
-		this.y=200;
+		this.x=300;
+		this.y=120;
 	}
 	
 	// Getters & Setters

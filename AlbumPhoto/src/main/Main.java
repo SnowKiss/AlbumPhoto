@@ -4,12 +4,15 @@ package main;
 import java.net.URL;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import modeles.Album;
 import modeles.Page;
 import vues.Controller;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 
 
@@ -32,7 +35,21 @@ public class Main extends Application {
 			Controller photoController = loader.getController();
 			photoController.setMain(this);
 			scene = new Scene(root);
+			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		        public void handle(KeyEvent event) {
+		        	if(event.getCode() == KeyCode.RIGHT) {
+	    	            // page suivante
+		        		photoController.pageSuivante();
+		    	    } 
+		        	else if(event.getCode() == KeyCode.LEFT) {
+		    	        // page precedente
+		        		photoController.pagePrecedente();
+		            }
+		        }
+		    });
+
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.show();
 			
 			// Création de l'album
@@ -78,7 +95,5 @@ public class Main extends Application {
 	public void setCurrentPage(Page page) {
 		this.currentPage=page;
 	}
-	
-	
 	
 }
