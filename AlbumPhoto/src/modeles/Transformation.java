@@ -1,5 +1,6 @@
 package modeles;
 
+import javafx.scene.Node;
 import main.Main;
 
 public class Transformation extends PhotoDecorator {
@@ -13,6 +14,18 @@ public class Transformation extends PhotoDecorator {
 	public void drawPhoto(Main main) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Node getText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Node getSelectedImage() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

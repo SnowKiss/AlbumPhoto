@@ -36,11 +36,11 @@ public class Page {
 	public void drawPage(int indexPage, int numberOfPages, Main main)
 	{
 		// draw each photo of the page
-		for (Photo p : listePhotos)
+		/*for (Photo p : listePhotos)
 		{
 			p.drawPhoto(main);
 		}
-		
+		*/
 		// add caption of the index of the page
 		Text t = new Text (550, 620, String.valueOf(numero+1) );
 		main.getRoot().getChildren().addAll(t);

@@ -40,7 +40,7 @@ public class Main extends Application {
 			album = new Album("Mon album photo");
 			currentPage = album.getListePages().get(0);
 			
-			photoController.repaint();
+			photoController.refreshView();
 
 		} catch(Exception e) {
 			e.printStackTrace();

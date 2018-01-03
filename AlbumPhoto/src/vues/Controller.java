@@ -20,12 +20,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.StageStyle;
 import main.Main;
 import modeles.Page;
+import modeles.Photo;
 import modeles.PhotoSimple;
 
 public class Controller {
@@ -70,7 +71,7 @@ public class Controller {
 	        //ajouter l'image à un nouvel objet photo
 	        main.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
 	        
-	        repaint();
+	        main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
 	        
 		    //    ImageView selectedImage = new ImageView(ps.getImage());  
 		    //    main.getRoot().getChildren().addAll(selectedImage);
@@ -83,11 +84,12 @@ public class Controller {
 	
 	public void repaint() {
 		//clean the scene
-		Node n = main.getRoot().getChildren().get(0);
-		main.getRoot().getChildren().clear();
-		main.getRoot().getChildren().addAll(n);
+		//Node n = main.getRoot().getChildren().get(0);
+		//main.getRoot().getChildren().clear();
+		//main.getRoot().getChildren().addAll(n);
 		//draw the current page
-		main.getCurrentPage().drawPage(1, 2, main);
+		//main.getCurrentPage().drawPage(1, 2, main);
+		//main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
 		
 	}
 
@@ -99,9 +101,32 @@ public class Controller {
 	{
 		main.getAlbum().getListePages().add(new Page(main.getAlbum().getListePages().size()));
 		main.setCurrentPage(main.getAlbum().getListePages().get(main.getAlbum().getListePages().size()-1));
-		repaint();
+		refreshView();
 	}
 	
+	public void refreshView() {
+		// on desactive les autres nodes de la vue
+		for (Node n: main.getRoot().getChildren())
+		{
+			n.setManaged(false);
+			n.setVisible(false);
+		}
+		// on réactive les éléments de la page active
+		for (Photo p: main.getCurrentPage().getListePhotos())
+		{
+			p.getText().setManaged(true);
+			p.getText().setVisible(true);
+			p.getSelectedImage().setManaged(true);
+			p.getSelectedImage().setVisible(true);
+		}
+		// on réactive le menu
+		main.getRoot().getChildren().get(0).setManaged(true);
+		main.getRoot().getChildren().get(0).setVisible(true);
+		// on affiche le numero de la page
+		Text t = new Text (550, 620, String.valueOf(main.getCurrentPage().getNumero()+1)+"/"+String.valueOf(main.getAlbum().getListePages().size()) );
+		main.getRoot().getChildren().addAll(t);
+	}
+
 	public void supprimerPage() 
 	{
 		// on retient l'index de la page à supprimer
@@ -126,19 +151,19 @@ public class Controller {
 		
 		// supprimer la page
 		main.getAlbum().getListePages().remove(indexSuppr);
-		repaint();
+		refreshView();
 	}
 	
 	public void pageSuivante() 
 	{
 		main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()+1));
-		repaint();
+		refreshView();
 	}
 	
 	public void pagePrecedente() 
 	{
 		main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()-1));
-		repaint();
+		refreshView();
 	}
 
 }

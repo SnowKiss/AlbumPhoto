@@ -19,12 +19,18 @@ public class PhotoSimple implements Photo {
 	// Attributs
 	Image image;
 	String titre;
+	ImageView selectedImage;
+	Text t;
+	double x;
+	double y;
 	
 	// Constructeur	
 	public PhotoSimple(Image image, String titre) {
 		super();
 		this.titre = titre;
 		this.image = image;
+		this.x=200;
+		this.y=200;
 	}
 	
 	// Getters & Setters
@@ -38,12 +44,12 @@ public class PhotoSimple implements Photo {
 
 	public void drawPhoto(Main main) {
 		// afficher l'image
-		ImageView selectedImage = new ImageView(image); 
-		selectedImage.setX(200);
-		selectedImage.setY(200);
+		selectedImage = new ImageView(image);
+		selectedImage.setX(this.x);
+		selectedImage.setY(this.y);
 		
 		// afficher la légende
-        Text t = new Text (selectedImage.getX()+20, selectedImage.getY()+image.getHeight()+20, titre);
+        t = new Text (selectedImage.getX()+20, selectedImage.getY()+image.getHeight()+20, titre);
         
         // Event pour permettre à l'utilisateur de modifier la légende
         t.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
@@ -70,8 +76,10 @@ public class PhotoSimple implements Photo {
 	    });
 		
 		main.getRoot().getChildren().addAll(selectedImage);
-		
         main.getRoot().getChildren().addAll(t);
+        
+        this.x=selectedImage.getX();
+        this.y=selectedImage.getY();
 		
 	}
 
@@ -79,5 +87,25 @@ public class PhotoSimple implements Photo {
 
 		return image;
 	}
+
+	public ImageView getSelectedImage() {
+		return selectedImage;
+	}
+
+	public void setSelectedImage(ImageView selectedImage) {
+		this.selectedImage = selectedImage;
+	}
+
+	public Text getText() {
+		return t;
+	}
+
+	public void setText(Text t) {
+		this.t = t;
+	}
+	
+	
+	
+	
 	
 }
