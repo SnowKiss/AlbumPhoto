@@ -11,16 +11,19 @@ import java.io.IOException;
 //import java.nio.file.Paths;
 //import java.nio.file.StandardCopyOption;
 //import java.util.logging.Logger;
+import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.StageStyle;
 import main.Main;
 import modeles.Page;
 import modeles.PhotoSimple;
@@ -35,10 +38,27 @@ public class Controller {
 	
 	@FXML
 	public void ajouterPhoto() throws IOException{
+		String titre = "";
+		
+		/* TextInput pour laisser l'utiliateur choisir le titre de la photo */
+		TextInputDialog input_titre = new TextInputDialog("");
+		input_titre.setTitle("Légende de la photo");
+		input_titre.setContentText("Légende de la photo : ");
+		input_titre.setHeaderText(null);
+		
+		
+		// Réponse de l'utilisateur
+		Optional<String> result = input_titre.showAndWait();
+		if (result.isPresent()){
+		    titre = result.get();
+		}
+
+		
+		
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Ajouter une photo");
 		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
 		File photo = fileChooser.showOpenDialog(null);
 		if(photo != null)
 		{
@@ -48,7 +68,7 @@ public class Controller {
 	        //PhotoSimple ps = new PhotoSimple(image,"test");
 	        
 	        //ajouter l'image à un nouvel objet photo
-	        main.getCurrentPage().addPhoto(new PhotoSimple(image,"Alexz Johnson"));
+	        main.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
 	        
 	        repaint();
 	        

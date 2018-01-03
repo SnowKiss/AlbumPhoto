@@ -5,6 +5,9 @@
 
 package modeles;
 
+import java.util.Optional;
+
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +44,22 @@ public class PhotoSimple implements Photo {
 		
 		// afficher la légende
         Text t = new Text (selectedImage.getX()+20, selectedImage.getY()+image.getHeight()+20, titre);
+        
+        // Event pour permettre à l'utilisateur de modifier la légende
+        t.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
+        	/* TextInput pour laisser l'utiliateur modifier le titre de la photo */
+    		TextInputDialog input_titre = new TextInputDialog(t.getText());
+    		input_titre.setTitle("Légende de la photo");
+    		input_titre.setContentText("Légende de la photo : ");
+    		input_titre.setHeaderText(null);
+    		
+    		// Réponse de l'utilisateur
+    		Optional<String> result = input_titre.showAndWait();
+    		if (result.isPresent()){
+    		    t.setText(result.get());
+    		}
+        });
+        
                 
         selectedImage.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
 				selectedImage.setX(event.getX()-(image.getWidth()/2));
