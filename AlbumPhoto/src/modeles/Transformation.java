@@ -28,5 +28,11 @@ public class Transformation extends PhotoDecorator {
 		return null;
 	}
 
+	@Override
+	public Node getCadre() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }

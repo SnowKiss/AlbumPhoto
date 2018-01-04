@@ -10,4 +10,6 @@ public interface Photo {
 	public Node getText();
 
 	public Node getSelectedImage();
+
+	public Node getCadre();
 }

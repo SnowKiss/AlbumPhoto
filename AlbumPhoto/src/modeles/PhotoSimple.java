@@ -11,9 +11,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import main.Main;
 import vues.Controller;
@@ -24,6 +27,7 @@ public class PhotoSimple implements Photo {
 	Image image;
 	String titre;
 	ImageView selectedImage;
+	Rectangle cadre;
 	Text t;
 	double x;
 	double y;
@@ -38,6 +42,10 @@ public class PhotoSimple implements Photo {
 		this.x=300;
 		this.y=120;
 		this.bordure = false;
+		this.cadre = new Rectangle(image.getWidth(),image.getHeight());
+		this.cadre.setFill(Color.TRANSPARENT);
+		this.cadre.setStroke(Color.TRANSPARENT);
+		this.cadre.setStrokeWidth(0);
 		controleur = new Controller();
 	}
 	
@@ -56,8 +64,33 @@ public class PhotoSimple implements Photo {
 		selectedImage.setX(this.x);
 		selectedImage.setY(this.y);
 		
+		
+		
+		
+		
 		// afficher la légende
         t = new Text (selectedImage.getX()+20, selectedImage.getY()+image.getHeight()+20, titre);
+        
+
+        
+        cadre = new Rectangle(image.getWidth(),image.getHeight());
+        cadre.setFill(Color.TRANSPARENT);
+        cadre.setStroke(Color.BLUE);
+        cadre.setStrokeWidth(10);
+        cadre.relocate(selectedImage.getX()-cadre.getStrokeWidth()/2, selectedImage.getY()-cadre.getStrokeWidth()/2);
+        
+        DropShadow borderGlow= new DropShadow();
+		borderGlow.setOffsetY(0f);
+		borderGlow.setOffsetX(0f);
+		borderGlow.setColor(Color.RED);
+		borderGlow.setWidth(80);
+		borderGlow.setHeight(80);
+		cadre.setEffect(borderGlow);
+		
+		main.getRoot().getChildren().addAll(t,cadre,selectedImage);
+                
+        this.x=selectedImage.getX();
+        this.y=selectedImage.getY();
         
         // Event pour permettre à l'utilisateur de modifier la légende
         t.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
@@ -80,18 +113,18 @@ public class PhotoSimple implements Photo {
 				selectedImage.setY(event.getY()-(image.getHeight()/2));
 				t.setX(selectedImage.getX()+20);
 				t.setY(selectedImage.getY()+image.getHeight()+20);
+				cadre.relocate(selectedImage.getX()-cadre.getStrokeWidth()/2, selectedImage.getY()-cadre.getStrokeWidth()/2);
 				event.consume();
 	    });
         
-        
-		
-		main.getRoot().getChildren().addAll(selectedImage);
-        main.getRoot().getChildren().addAll(t);
-        
-        
-        
-        this.x=selectedImage.getX();
-        this.y=selectedImage.getY();
+        /*cadre.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
+				selectedImage.setX(event.getX()-(cadre.getWidth()/2));
+				selectedImage.setY(event.getY()-(cadre.getHeight()/2));
+				t.setX(selectedImage.getX()+20);
+				t.setY(selectedImage.getY()+image.getHeight()+20);
+				//cadre.relocate(selectedImage.getX(), selectedImage.getY());
+				event.consume();
+	    });*/
         
 		selectedImage.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
         	//controleur.afficherToolbar(selectedImage);
@@ -142,6 +175,14 @@ public class PhotoSimple implements Photo {
 
 	public void setText(Text t) {
 		this.t = t;
+	}
+
+	public Rectangle getCadre() {
+		return cadre;
+	}
+
+	public void setCadre(Rectangle cadre) {
+		this.cadre = cadre;
 	}
 	
 	

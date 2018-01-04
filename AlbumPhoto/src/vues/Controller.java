@@ -121,6 +121,8 @@ public class Controller {
 			p.getText().setVisible(true);
 			p.getSelectedImage().setManaged(true);
 			p.getSelectedImage().setVisible(true);
+			p.getCadre().setManaged(true);
+			p.getCadre().setVisible(true);
 		}
 
 		// on réactive le menu
