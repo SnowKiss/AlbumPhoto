@@ -1,7 +1,16 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
-.border{
+.background{
     -fx-background-image: url("/vues/background.jpg");
     -fx-background-repeat: no-repeat;   
     -fx-background-size: 1000 700;
     -fx-background-position: center center;
+}
+
+.border-simple
+{
+	-fx-border-color: red, black;
+    -fx-border-width: 5, 5;
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 0, 5;
+    -fx-border-style: solid inside, dotted outside;	
 }

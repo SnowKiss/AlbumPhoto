@@ -17,9 +17,13 @@ import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -118,9 +122,16 @@ public class Controller {
 			p.getSelectedImage().setManaged(true);
 			p.getSelectedImage().setVisible(true);
 		}
+
 		// on réactive le menu
 		main.getRoot().getChildren().get(0).setManaged(true);
 		main.getRoot().getChildren().get(0).setVisible(true);
+		
+		
+		// on réactive la toolbar
+		//main.getRoot().getChildren().get(1).setManaged(true);
+		//main.getRoot().getChildren().get(1).setVisible(true);
+		
 		// on affiche le numero de la page
 		Text t = new Text (624, 635, String.valueOf(main.getCurrentPage().getNumero()+1)+"/"+String.valueOf(main.getAlbum().getListePages().size()) );
 		main.getRoot().getChildren().addAll(t);
@@ -155,14 +166,31 @@ public class Controller {
 	
 	public void pageSuivante() 
 	{
-		main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()+1));
-		refreshView();
+		if(main.getAlbum().getListePages().size() > (main.getCurrentPage().getNumero()+1))
+		{
+			main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()+1));
+			refreshView();
+		}
 	}
 	
 	public void pagePrecedente() 
 	{
-		main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()-1));
-		refreshView();
+		if(main.getCurrentPage().getNumero() != 0)
+		{
+			main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()-1));
+			refreshView();
+		}
 	}
+	
+	public void afficherToolbar(ImageView selectedImage)
+	{
+		
+		// On affiche la toolbar
 
+		//main.getRoot().getChildren().get(1).setManaged(true);
+		//main.getRoot().getChildren().get(1).setVisible(true);
+	}
+	
+
+	
 }

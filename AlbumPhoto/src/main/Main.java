@@ -35,6 +35,7 @@ public class Main extends Application {
 			Controller photoController = loader.getController();
 			photoController.setMain(this);
 			scene = new Scene(root);
+			scene.getStylesheets().add(getClass().getResource("/vues/application.css").toExternalForm());
 			scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 		        public void handle(KeyEvent event) {
 		        	if(event.getCode() == KeyCode.RIGHT) {
