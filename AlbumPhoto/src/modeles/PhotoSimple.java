@@ -18,7 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import main.Main;
+import main.Init;
 import vues.Controller;
 
 public class PhotoSimple implements Photo {
@@ -31,6 +31,8 @@ public class PhotoSimple implements Photo {
 	Text t;
 	double x;
 	double y;
+	double width;
+	double height;
 	Controller controleur;
 	Boolean bordure;
 	
@@ -42,7 +44,16 @@ public class PhotoSimple implements Photo {
 		this.x=300;
 		this.y=120;
 		this.bordure = false;
-		this.cadre = new Rectangle(image.getWidth(),image.getHeight());
+		
+		this.selectedImage = new ImageView(image);
+		this.selectedImage.setPreserveRatio(true);
+		this.selectedImage.setFitWidth(300);
+		this.selectedImage.fitWidthProperty();
+		
+		this.width = 300;
+		this.height = (this.width/image.getWidth())*image.getHeight();
+		
+		this.cadre = new Rectangle(width, height);
 		this.cadre.setFill(Color.TRANSPARENT);
 		this.cadre.setStroke(Color.TRANSPARENT);
 		this.cadre.setStrokeWidth(0);
@@ -58,9 +69,9 @@ public class PhotoSimple implements Photo {
 		this.titre = titre;
 	}
 
-	public void drawPhoto(Main main) {
+	public void drawPhoto(Init init) {
 		// afficher l'image
-		selectedImage = new ImageView(image);
+		
 		selectedImage.setX(this.x);
 		selectedImage.setY(this.y);
 		
@@ -69,11 +80,11 @@ public class PhotoSimple implements Photo {
 		
 		
 		// afficher la légende
-        t = new Text (selectedImage.getX()+20, selectedImage.getY()+image.getHeight()+20, titre);
+        t = new Text (selectedImage.getX()+20, selectedImage.getY()+height+20, titre);
         
 
         
-        cadre = new Rectangle(image.getWidth(),image.getHeight());
+        cadre = new Rectangle(width, height);
         cadre.setFill(Color.TRANSPARENT);
         cadre.setStroke(Color.BLUE);
         cadre.setStrokeWidth(10);
@@ -87,7 +98,7 @@ public class PhotoSimple implements Photo {
 		borderGlow.setHeight(80);
 		cadre.setEffect(borderGlow);
 		
-		main.getRoot().getChildren().addAll(t,cadre,selectedImage);
+		init.getRoot().getChildren().addAll(t,cadre,selectedImage);
                 
         this.x=selectedImage.getX();
         this.y=selectedImage.getY();
@@ -109,10 +120,10 @@ public class PhotoSimple implements Photo {
         
                 
         selectedImage.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
-				selectedImage.setX(event.getX()-(image.getWidth()/2));
-				selectedImage.setY(event.getY()-(image.getHeight()/2));
+				selectedImage.setX(event.getX()-(width/2));
+				selectedImage.setY(event.getY()-(height/2));
 				t.setX(selectedImage.getX()+20);
-				t.setY(selectedImage.getY()+image.getHeight()+20);
+				t.setY(selectedImage.getY()+height+20);
 				cadre.relocate(selectedImage.getX()-cadre.getStrokeWidth()/2, selectedImage.getY()-cadre.getStrokeWidth()/2);
 				event.consume();
 	    });
@@ -129,22 +140,22 @@ public class PhotoSimple implements Photo {
 		selectedImage.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
         	//controleur.afficherToolbar(selectedImage);
         	// on affiche la ToolBar
-        	main.getRoot().lookup("#toolBar").setManaged(true);
-        	main.getRoot().lookup("#toolBar").setVisible(true);
+        	init.getRoot().lookup("#toolBar").setManaged(true);
+        	init.getRoot().lookup("#toolBar").setVisible(true);
         	
-        	CheckBox check = (CheckBox) main.getRoot().lookup("#checkbox_bordure");
+        	CheckBox check = (CheckBox) init.getRoot().lookup("#checkbox_bordure");
    
         	check.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 public void changed(ObservableValue<? extends Boolean> ov,
                         Boolean old_val, Boolean new_val) {
                 		if(check.isSelected())
                 		{
-                			main.getRoot().lookup("#choicebox_bordure").getStyleClass().add("border-simple");
+                			init.getRoot().lookup("#choicebox_bordure").getStyleClass().add("border-simple");
                 			selectedImage.getStyleClass().add("border-simple");
                 		}
                 		else
                 		{
-                			main.getRoot().lookup("#choicebox_bordure").getStyleClass().remove("border-simple");
+                			init.getRoot().lookup("#choicebox_bordure").getStyleClass().remove("border-simple");
                 			selectedImage.getStyleClass().remove("border-simple");
                 		}
                 		

@@ -1,11 +1,11 @@
 package modeles;
 
 import javafx.scene.Node;
-import main.Main;
+import main.Init;
 
 public interface Photo {
 
-	public void drawPhoto(Main main);
+	public void drawPhoto(Init init);
 
 	public Node getText();
 

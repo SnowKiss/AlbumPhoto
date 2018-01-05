@@ -1,7 +1,7 @@
 package modeles;
 
 import javafx.scene.Node;
-import main.Main;
+import main.Init;
 
 public class Transformation extends PhotoDecorator {
 
@@ -11,7 +11,7 @@ public class Transformation extends PhotoDecorator {
 	}
 
 	@Override
-	public void drawPhoto(Main main) {
+	public void drawPhoto(Init init) {
 		// TODO Auto-generated method stub
 		
 	}

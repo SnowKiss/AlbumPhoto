@@ -183,3 +183,24 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.equinox.ds 1 0 2018-01-05 16:59:11.804
 !MESSAGE Could not bind a reference of component org.eclipse.fx.ide.css.cssext.ui.internal.DefaultCssExtProvider. The reference is: Reference[name = ICSSExtModelProvider, interface = org.eclipse.fx.ide.css.cssext.ICSSExtModelProvider, policy = dynamic, cardinality = 0..n, target = null, bind = bindCssExtensionModelProvider, unbind = unbindCssExtensionModelProvider]
+
+!ENTRY org.eclipse.egit.core 4 0 2018-01-05 17:00:28.590
+!MESSAGE An exception occurred during push on URI https://github.com/SnowKiss/AlbumPhoto.git: SnowKiss@https://github.com/SnowKiss/AlbumPhoto.git:a: not found.
+!STACK 0
+org.eclipse.jgit.api.errors.TransportException: SnowKiss@https://github.com/SnowKiss/AlbumPhoto.git:a: not found.
+	at org.eclipse.jgit.api.PushCommand.call(PushCommand.java:180)
+	at org.eclipse.egit.core.op.PushOperation.run(PushOperation.java:217)
+	at org.eclipse.egit.ui.internal.push.PushOperationUI.execute(PushOperationUI.java:167)
+	at org.eclipse.egit.ui.internal.push.PushOperationUI$1.run(PushOperationUI.java:229)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+Caused by: org.eclipse.jgit.errors.NoRemoteRepositoryException: SnowKiss@https://github.com/SnowKiss/AlbumPhoto.git:a: not found.
+	at org.eclipse.jgit.transport.TransportLocal$1.open(TransportLocal.java:131)
+	at org.eclipse.jgit.transport.TransportBundleFile$1.open(TransportBundleFile.java:106)
+	at org.eclipse.jgit.transport.Transport.open(Transport.java:565)
+	at org.eclipse.jgit.transport.Transport.openAll(Transport.java:494)
+	at org.eclipse.jgit.transport.Transport.openAll(Transport.java:386)
+	at org.eclipse.jgit.api.PushCommand.call(PushCommand.java:145)
+	... 4 more
+
+!ENTRY org.eclipse.equinox.security 1 0 2018-01-05 17:00:59.200
+!MESSAGE New keyring password generated. 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.text.Text;
-import main.Main;
+import main.Init;
 
 public class Page {
 	
@@ -33,7 +33,7 @@ public class Page {
 		this.listePhotos = listePhotos;
 	}
 	
-	public void drawPage(int indexPage, int numberOfPages, Main main)
+	public void drawPage(int indexPage, int numberOfPages, Init init)
 	{
 		// draw each photo of the page
 		/*for (Photo p : listePhotos)
@@ -43,7 +43,7 @@ public class Page {
 		*/
 		// add caption of the index of the page
 		Text t = new Text (550, 620, String.valueOf(numero+1) );
-		main.getRoot().getChildren().addAll(t);
+		init.getRoot().getChildren().addAll(t);
 		// add all component to the scene
 	}
 

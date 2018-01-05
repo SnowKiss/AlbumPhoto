@@ -1,21 +1,11 @@
 package vues;
 
-
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-//import java.net.URL;
-//import java.nio.file.Files;
-//import java.nio.file.Path;
-//import java.nio.file.Paths;
-//import java.nio.file.StandardCopyOption;
-//import java.util.logging.Logger;
 import java.util.Optional;
-
 import javax.imageio.ImageIO;
-
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -28,13 +18,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import main.Main;
+import main.Init;
 import modeles.Page;
 import modeles.Photo;
 import modeles.PhotoSimple;
 
 public class Controller {
-	private Main main;
+	private Init init;
 
 	public Controller() {
 		super();
@@ -73,12 +63,12 @@ public class Controller {
 	        //PhotoSimple ps = new PhotoSimple(image,"test");
 	        
 	        //ajouter l'image à un nouvel objet photo
-	        main.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
+	        init.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
 	        
-	        main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+	        init.getCurrentPage().getListePhotos().get(init.getCurrentPage().getListePhotos().size()-1).drawPhoto(init);
 	        
 		    //    ImageView selectedImage = new ImageView(ps.getImage());  
-		    //    main.getRoot().getChildren().addAll(selectedImage);
+		    //    init.getRoot().getChildren().addAll(selectedImage);
 	         
 	 
 			System.out.println("file://" + photo.toString());
@@ -103,47 +93,47 @@ public class Controller {
 		}
 
         //ajouter l'image à un nouvel objet photo
-        main.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
+        init.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
         
-        main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+        init.getCurrentPage().getListePhotos().get(init.getCurrentPage().getListePhotos().size()-1).drawPhoto(init);
         
 	    //    ImageView selectedImage = new ImageView(ps.getImage());  
-	    //    main.getRoot().getChildren().addAll(selectedImage);
+	    //    init.getRoot().getChildren().addAll(selectedImage);
 
 		System.out.println("Image ajoutée !");
 	}
 	
 	public void repaint() {
 		//clean the scene
-		//Node n = main.getRoot().getChildren().get(0);
-		//main.getRoot().getChildren().clear();
-		//main.getRoot().getChildren().addAll(n);
+		//Node n = init.getRoot().getChildren().get(0);
+		//init.getRoot().getChildren().clear();
+		//init.getRoot().getChildren().addAll(n);
 		//draw the current page
-		//main.getCurrentPage().drawPage(1, 2, main);
-		//main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+		//init.getCurrentPage().drawPage(1, 2, init);
+		//init.getCurrentPage().getListePhotos().get(init.getCurrentPage().getListePhotos().size()-1).drawPhoto(init);
 		
 	}
 
-	public void setMain(Main main) {
-        this.main = main;
+	public void setInit(Init init) {
+        this.init = init;
     }
 	
 	public void ajouterPage() 
 	{
-		main.getAlbum().getListePages().add(new Page(main.getAlbum().getListePages().size()));
-		main.setCurrentPage(main.getAlbum().getListePages().get(main.getAlbum().getListePages().size()-1));
+		init.getAlbum().getListePages().add(new Page(init.getAlbum().getListePages().size()));
+		init.setCurrentPage(init.getAlbum().getListePages().get(init.getAlbum().getListePages().size()-1));
 		refreshView();
 	}
 	
 	public void refreshView() {
 		// on desactive les autres nodes de la vue
-		for (Node n: main.getRoot().getChildren())
+		for (Node n: init.getRoot().getChildren())
 		{
 			n.setManaged(false);
 			n.setVisible(false);
 		}
 		// on réactive les éléments de la page active
-		for (Photo p: main.getCurrentPage().getListePhotos())
+		for (Photo p: init.getCurrentPage().getListePhotos())
 		{
 			p.getText().setManaged(true);
 			p.getText().setVisible(true);
@@ -154,27 +144,27 @@ public class Controller {
 		}
 
 		// on réactive le menu
-		main.getRoot().getChildren().get(0).setManaged(true);
-		main.getRoot().getChildren().get(0).setVisible(true);
-		main.getRoot().getRight().setManaged(true);
-    	main.getRoot().getRight().setVisible(true);
+		init.getRoot().getChildren().get(0).setManaged(true);
+		init.getRoot().getChildren().get(0).setVisible(true);
+		init.getRoot().getRight().setManaged(true);
+    	init.getRoot().getRight().setVisible(true);
 		
 		
 		// on réactive la toolbar
-		//main.getRoot().getChildren().get(1).setManaged(true);
-		//main.getRoot().getChildren().get(1).setVisible(true);
+		//init.getRoot().getChildren().get(1).setManaged(true);
+		//init.getRoot().getChildren().get(1).setVisible(true);
 		
 		// on affiche le numero de la page
-		Text t = new Text (624, 635, String.valueOf(main.getCurrentPage().getNumero()+1)+"/"+String.valueOf(main.getAlbum().getListePages().size()) );
-		main.getRoot().getChildren().addAll(t);
+		Text t = new Text (624, 635, String.valueOf(init.getCurrentPage().getNumero()+1)+"/"+String.valueOf(init.getAlbum().getListePages().size()) );
+		init.getRoot().getChildren().addAll(t);
 	}
 
 	public void supprimerPage() 
 	{
 		// on retient l'index de la page à supprimer
-		int indexSuppr = main.getCurrentPage().getNumero();
+		int indexSuppr = init.getCurrentPage().getNumero();
 		// mettre à jour les numéros de page des suivants
-		for (Page p : main.getAlbum().getListePages())
+		for (Page p : init.getAlbum().getListePages())
 		{
 			if (p.getNumero()>indexSuppr)
 			{
@@ -184,32 +174,32 @@ public class Controller {
 		// changer le focus
 		if(indexSuppr==0)
 		{
-			main.setCurrentPage(main.getAlbum().getListePages().get(indexSuppr+1));
+			init.setCurrentPage(init.getAlbum().getListePages().get(indexSuppr+1));
 		}
 		else
 		{
-			main.setCurrentPage(main.getAlbum().getListePages().get(indexSuppr-1));
+			init.setCurrentPage(init.getAlbum().getListePages().get(indexSuppr-1));
 		}
 		
 		// supprimer la page
-		main.getAlbum().getListePages().remove(indexSuppr);
+		init.getAlbum().getListePages().remove(indexSuppr);
 		refreshView();
 	}
 	
 	public void pageSuivante() 
 	{
-		if(main.getAlbum().getListePages().size() > (main.getCurrentPage().getNumero()+1))
+		if(init.getAlbum().getListePages().size() > (init.getCurrentPage().getNumero()+1))
 		{
-			main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()+1));
+			init.setCurrentPage(init.getAlbum().getListePages().get(init.getCurrentPage().getNumero()+1));
 			refreshView();
 		}
 	}
 	
 	public void pagePrecedente() 
 	{
-		if(main.getCurrentPage().getNumero() != 0)
+		if(init.getCurrentPage().getNumero() != 0)
 		{
-			main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()-1));
+			init.setCurrentPage(init.getAlbum().getListePages().get(init.getCurrentPage().getNumero()-1));
 			refreshView();
 		}
 	}
@@ -219,8 +209,8 @@ public class Controller {
 		
 		// On affiche la toolbar
 
-		//main.getRoot().getChildren().get(1).setManaged(true);
-		//main.getRoot().getChildren().get(1).setVisible(true);
+		//init.getRoot().getChildren().get(1).setManaged(true);
+		//init.getRoot().getChildren().get(1).setVisible(true);
 	}
 	
 	public void importerImages() throws IOException{
@@ -256,13 +246,13 @@ public class Controller {
 	                }
 	            }
 	        });
-	        main.getListe().getChildren().add(sample);
-	        main.getListeImage().add(sample);
+	        init.getListe().getChildren().add(sample);
+	        init.getListeImage().add(sample);
 	        
-	        //main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+	        //init.getCurrentPage().getListePhotos().get(init.getCurrentPage().getListePhotos().size()-1).drawPhoto(init);
 	        
 		    //    ImageView selectedImage = new ImageView(ps.getImage());  
-		    //    main.getRoot().getChildren().addAll(selectedImage);
+		    //    init.getRoot().getChildren().addAll(selectedImage);
 	         
 	 
 			System.out.println("file://" + photo.toString());
