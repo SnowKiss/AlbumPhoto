@@ -8,8 +8,8 @@ package modeles;
 import java.util.ArrayList;
 import java.util.List;
 
+import controllers.Init;
 import javafx.scene.text.Text;
-import main.Init;
 
 public class Page {
 	

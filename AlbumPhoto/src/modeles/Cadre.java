@@ -1,7 +1,7 @@
 package modeles;
 
-import javafx.scene.Node;
-import main.Init;
+import controllers.Init;
+import controllers.PhotoController;
 
 public class Cadre extends PhotoDecorator {
 
@@ -17,23 +17,15 @@ public class Cadre extends PhotoDecorator {
 	}
 
 	@Override
-	public Node getText() {
+	public PhotoController getPhotoController() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Node getSelectedImage() {
+	public void setPhotoController(PhotoController photoController) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
-
-	@Override
-	public Node getCadre() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 
 }

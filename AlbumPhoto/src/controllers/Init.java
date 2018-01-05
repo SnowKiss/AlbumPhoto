@@ -1,4 +1,4 @@
-package main;
+package controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,7 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import modeles.Album;
 import modeles.Page;
-import vues.Controller;
 
 public class Init {
 	private BorderPane root;

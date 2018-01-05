@@ -1,4 +1,4 @@
-package vues;
+package controllers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import javax.imageio.ImageIO;
+
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import main.Init;
 import modeles.Page;
 import modeles.Photo;
 import modeles.PhotoSimple;
@@ -57,13 +57,9 @@ public class Controller {
 		File photo = fileChooser.showOpenDialog(null);
 		if(photo != null)
 		{
-			BufferedImage bufferedImage = ImageIO.read(photo);
-	        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-	        
-	        //PhotoSimple ps = new PhotoSimple(image,"test");
 	        
 	        //ajouter l'image à un nouvel objet photo
-	        init.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
+	        init.getCurrentPage().addPhoto(new PhotoSimple(photo,titre));
 	        
 	        init.getCurrentPage().getListePhotos().get(init.getCurrentPage().getListePhotos().size()-1).drawPhoto(init);
 	        
@@ -76,7 +72,7 @@ public class Controller {
 		System.out.println("Image ajoutée !");
 	}
 	
-	public void ajouterImage(Image image) throws IOException{
+	public void ajouterImage(File image) throws IOException{
 		String titre = "";
 		
 		/* TextInput pour laisser l'utiliateur choisir le titre de la photo */
@@ -135,12 +131,12 @@ public class Controller {
 		// on réactive les éléments de la page active
 		for (Photo p: init.getCurrentPage().getListePhotos())
 		{
-			p.getText().setManaged(true);
-			p.getText().setVisible(true);
-			p.getSelectedImage().setManaged(true);
-			p.getSelectedImage().setVisible(true);
-			p.getCadre().setManaged(true);
-			p.getCadre().setVisible(true);
+			p.getPhotoController().getT().setManaged(true);
+			p.getPhotoController().getT().setVisible(true);
+			p.getPhotoController().getSelectedImage().setManaged(true);
+			p.getPhotoController().getSelectedImage().setVisible(true);
+			p.getPhotoController().getCadre().setManaged(true);
+			p.getPhotoController().getCadre().setVisible(true);
 		}
 
 		// on réactive le menu
@@ -237,7 +233,7 @@ public class Controller {
 	                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
 	                    if(mouseEvent.getClickCount() == 2){
 	                        try {
-								ajouterImage(sample.getImage());
+								ajouterImage(photo);
 							} catch (IOException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
