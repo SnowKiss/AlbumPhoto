@@ -1,19 +1,28 @@
 package main;
 	
-
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Orientation;
 import javafx.stage.Stage;
 import modeles.Album;
 import modeles.Page;
 import vues.Controller;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 
 public class Main extends Application {
@@ -21,6 +30,8 @@ public class Main extends Application {
 	private Scene scene;
 	private Album album;
 	private Page currentPage;
+	private VBox liste;
+	private List<ImageView> listeImage;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -48,16 +59,47 @@ public class Main extends Application {
 		            }
 		        }
 		    });
-
+			listeImage = new ArrayList<ImageView>();
+			liste=new VBox();
+			VBox rContainer = new VBox();
+			Button bImporter = new Button("Importer");
+			ScrollBar sBar = new ScrollBar();
+			Group listeGroupe = new Group();
+			
+			liste.setSpacing(20);
+			rContainer.setSpacing(20);
+			
+			sBar.setOrientation(Orientation.VERTICAL);
+			sBar.prefHeight(5);
+			sBar.setMax(getSommeHauteurImage(20));
+			
+			bImporter.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	                try {
+						photoController.importerImages();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            }
+	        });
+			
+			listeGroupe.getChildren().addAll(liste, sBar);
+			rContainer.getChildren().addAll(bImporter, listeGroupe);
+						
+			root.setRight(rContainer);
+			
+			
+			
+			
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.show();
 			
 			// Création de l'album
-			
 			album = new Album("Mon album photo");
 			currentPage = album.getListePages().get(0);
-			
 			photoController.refreshView();
 
 		} catch(Exception e) {
@@ -65,6 +107,15 @@ public class Main extends Application {
 		}
 	}
 	
+	private double getSommeHauteurImage(int pad) {
+		double somme = 0;
+		for (ImageView i:listeImage)
+		{
+			somme=i.getFitHeight()+pad+somme;
+		}
+		return somme;
+	}
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -96,5 +147,23 @@ public class Main extends Application {
 	public void setCurrentPage(Page page) {
 		this.currentPage=page;
 	}
+
+	public VBox getListe() {
+		return liste;
+	}
+
+	public void setListe(VBox liste) {
+		this.liste = liste;
+	}
+
+	public List<ImageView> getListeImage() {
+		return listeImage;
+	}
+
+	public void setListeImage(List<ImageView> listeImage) {
+		this.listeImage = listeImage;
+	}
+	
+	
 	
 }

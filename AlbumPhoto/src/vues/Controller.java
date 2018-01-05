@@ -5,6 +5,7 @@ package vues;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 //import java.net.URL;
 //import java.nio.file.Files;
 //import java.nio.file.Path;
@@ -17,11 +18,8 @@ import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
@@ -128,6 +126,8 @@ public class Controller {
 		// on réactive le menu
 		main.getRoot().getChildren().get(0).setManaged(true);
 		main.getRoot().getChildren().get(0).setVisible(true);
+		main.getRoot().getRight().setManaged(true);
+    	main.getRoot().getRight().setVisible(true);
 		
 		
 		// on réactive la toolbar
@@ -193,6 +193,37 @@ public class Controller {
 		//main.getRoot().getChildren().get(1).setVisible(true);
 	}
 	
-
+	public void importerImages() throws IOException{
+		//String titre = "";
+				
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Importer des images");
+		fileChooser.getExtensionFilters().addAll(
+		new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		List<File> photos = fileChooser.showOpenMultipleDialog(null);
+		for(File photo : photos)
+		{
+			BufferedImage bufferedImage = ImageIO.read(photo);
+	        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+	        
+	        //ajouter l'image à la liste affichée
+	        ImageView sample = new ImageView(image);
+	        sample.setPreserveRatio(true);
+	        sample.setFitWidth(170);
+	        sample.fitWidthProperty();
+	        main.getListe().getChildren().add(sample);
+	        main.getListeImage().add(sample);
+	        
+	        //main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+	        
+		    //    ImageView selectedImage = new ImageView(ps.getImage());  
+		    //    main.getRoot().getChildren().addAll(selectedImage);
+	         
+	 
+			System.out.println("file://" + photo.toString());
+		}
+		System.out.println("Image ajoutée !");
+	}
+	
 	
 }

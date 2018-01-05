@@ -9,7 +9,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="700.0" prefWidth="1300.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.Controller">
+<BorderPane prefHeight="700.0" prefWidth="1400.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vues.Controller">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
@@ -38,7 +38,7 @@
       </MenuBar>
    </top>
    <left>
-      <ToolBar id="toolBar" orientation="VERTICAL" prefHeight="675.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+      <ToolBar id="toolBar" orientation="VERTICAL" prefHeight="668.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
             <Label text="Bordure : " />
             <CheckBox id="checkbox_bordure" mnemonicParsing="false" />
