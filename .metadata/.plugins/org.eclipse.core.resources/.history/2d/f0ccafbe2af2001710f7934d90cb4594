@@ -1,0 +1,228 @@
+package vues;
+
+
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+//import java.net.URL;
+//import java.nio.file.Files;
+//import java.nio.file.Path;
+//import java.nio.file.Paths;
+//import java.nio.file.StandardCopyOption;
+//import java.util.logging.Logger;
+import java.util.Optional;
+
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import main.Main;
+import modeles.Page;
+import modeles.Photo;
+import modeles.PhotoSimple;
+
+public class Controller {
+	private Main main;
+
+	public Controller() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	@FXML
+	public void ajouterPhoto() throws IOException{
+		String titre = "";
+		
+		/* TextInput pour laisser l'utiliateur choisir le titre de la photo */
+		TextInputDialog input_titre = new TextInputDialog("");
+		input_titre.setTitle("Légende de la photo");
+		input_titre.setContentText("Légende de la photo : ");
+		input_titre.setHeaderText(null);
+		
+		
+		// Réponse de l'utilisateur
+		Optional<String> result = input_titre.showAndWait();
+		if (result.isPresent()){
+		    titre = result.get();
+		}
+
+		
+		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Ajouter une photo");
+		fileChooser.getExtensionFilters().addAll(
+		new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		File photo = fileChooser.showOpenDialog(null);
+		if(photo != null)
+		{
+			BufferedImage bufferedImage = ImageIO.read(photo);
+	        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+	        
+	        //PhotoSimple ps = new PhotoSimple(image,"test");
+	        
+	        //ajouter l'image à un nouvel objet photo
+	        main.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
+	        
+	        main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+	        
+		    //    ImageView selectedImage = new ImageView(ps.getImage());  
+		    //    main.getRoot().getChildren().addAll(selectedImage);
+	         
+	 
+			System.out.println("file://" + photo.toString());
+		}
+		System.out.println("Image ajoutée !");
+	}
+	
+	public void repaint() {
+		//clean the scene
+		//Node n = main.getRoot().getChildren().get(0);
+		//main.getRoot().getChildren().clear();
+		//main.getRoot().getChildren().addAll(n);
+		//draw the current page
+		//main.getCurrentPage().drawPage(1, 2, main);
+		//main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+		
+	}
+
+	public void setMain(Main main) {
+        this.main = main;
+    }
+	
+	public void ajouterPage() 
+	{
+		main.getAlbum().getListePages().add(new Page(main.getAlbum().getListePages().size()));
+		main.setCurrentPage(main.getAlbum().getListePages().get(main.getAlbum().getListePages().size()-1));
+		refreshView();
+	}
+	
+	public void refreshView() {
+		// on desactive les autres nodes de la vue
+		for (Node n: main.getRoot().getChildren())
+		{
+			n.setManaged(false);
+			n.setVisible(false);
+		}
+		// on réactive les éléments de la page active
+		for (Photo p: main.getCurrentPage().getListePhotos())
+		{
+			p.getText().setManaged(true);
+			p.getText().setVisible(true);
+			p.getSelectedImage().setManaged(true);
+			p.getSelectedImage().setVisible(true);
+			p.getCadre().setManaged(true);
+			p.getCadre().setVisible(true);
+		}
+
+		// on réactive le menu
+		main.getRoot().getChildren().get(0).setManaged(true);
+		main.getRoot().getChildren().get(0).setVisible(true);
+		main.getRoot().getRight().setManaged(true);
+    	main.getRoot().getRight().setVisible(true);
+		
+		
+		// on réactive la toolbar
+		//main.getRoot().getChildren().get(1).setManaged(true);
+		//main.getRoot().getChildren().get(1).setVisible(true);
+		
+		// on affiche le numero de la page
+		Text t = new Text (624, 635, String.valueOf(main.getCurrentPage().getNumero()+1)+"/"+String.valueOf(main.getAlbum().getListePages().size()) );
+		main.getRoot().getChildren().addAll(t);
+	}
+
+	public void supprimerPage() 
+	{
+		// on retient l'index de la page à supprimer
+		int indexSuppr = main.getCurrentPage().getNumero();
+		// mettre à jour les numéros de page des suivants
+		for (Page p : main.getAlbum().getListePages())
+		{
+			if (p.getNumero()>indexSuppr)
+			{
+				p.setNumero(p.getNumero()-1);
+			}
+		}
+		// changer le focus
+		if(indexSuppr==0)
+		{
+			main.setCurrentPage(main.getAlbum().getListePages().get(indexSuppr+1));
+		}
+		else
+		{
+			main.setCurrentPage(main.getAlbum().getListePages().get(indexSuppr-1));
+		}
+		
+		// supprimer la page
+		main.getAlbum().getListePages().remove(indexSuppr);
+		refreshView();
+	}
+	
+	public void pageSuivante() 
+	{
+		if(main.getAlbum().getListePages().size() > (main.getCurrentPage().getNumero()+1))
+		{
+			main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()+1));
+			refreshView();
+		}
+	}
+	
+	public void pagePrecedente() 
+	{
+		if(main.getCurrentPage().getNumero() != 0)
+		{
+			main.setCurrentPage(main.getAlbum().getListePages().get(main.getCurrentPage().getNumero()-1));
+			refreshView();
+		}
+	}
+	
+	public void afficherToolbar(ImageView selectedImage)
+	{
+		
+		// On affiche la toolbar
+
+		//main.getRoot().getChildren().get(1).setManaged(true);
+		//main.getRoot().getChildren().get(1).setVisible(true);
+	}
+	
+	public void importerImages() throws IOException{
+		//String titre = "";
+				
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Importer des images");
+		fileChooser.getExtensionFilters().addAll(
+		new ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+		List<File> photos = fileChooser.showOpenMultipleDialog(null);
+		for(File photo : photos)
+		{
+			BufferedImage bufferedImage = ImageIO.read(photo);
+	        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+	        
+	        //ajouter l'image à la liste affichée
+	        ImageView sample = new ImageView(image);
+	        sample.setFitWidth(170);
+	        sample.fitWidthProperty();
+	        main.getListe().getChildren().add(sample);
+	        main.getListeImage().add(sample);
+	        
+	        //main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+	        
+		    //    ImageView selectedImage = new ImageView(ps.getImage());  
+		    //    main.getRoot().getChildren().addAll(selectedImage);
+	         
+	 
+			System.out.println("file://" + photo.toString());
+		}
+		System.out.println("Image ajoutée !");
+	}
+	
+	
+}

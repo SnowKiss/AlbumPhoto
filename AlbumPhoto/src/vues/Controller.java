@@ -17,11 +17,14 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -80,6 +83,33 @@ public class Controller {
 	 
 			System.out.println("file://" + photo.toString());
 		}
+		System.out.println("Image ajoutée !");
+	}
+	
+	public void ajouterImage(Image image) throws IOException{
+		String titre = "";
+		
+		/* TextInput pour laisser l'utiliateur choisir le titre de la photo */
+		TextInputDialog input_titre = new TextInputDialog("");
+		input_titre.setTitle("Légende de la photo");
+		input_titre.setContentText("Légende de la photo : ");
+		input_titre.setHeaderText(null);
+		
+		
+		// Réponse de l'utilisateur
+		Optional<String> result = input_titre.showAndWait();
+		if (result.isPresent()){
+		    titre = result.get();
+		}
+
+        //ajouter l'image à un nouvel objet photo
+        main.getCurrentPage().addPhoto(new PhotoSimple(image,titre));
+        
+        main.getCurrentPage().getListePhotos().get(main.getCurrentPage().getListePhotos().size()-1).drawPhoto(main);
+        
+	    //    ImageView selectedImage = new ImageView(ps.getImage());  
+	    //    main.getRoot().getChildren().addAll(selectedImage);
+
 		System.out.println("Image ajoutée !");
 	}
 	
@@ -211,6 +241,21 @@ public class Controller {
 	        sample.setPreserveRatio(true);
 	        sample.setFitWidth(170);
 	        sample.fitWidthProperty();
+	        sample.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	            @Override
+	            public void handle(MouseEvent mouseEvent) {
+	                if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
+	                    if(mouseEvent.getClickCount() == 2){
+	                        try {
+								ajouterImage(sample.getImage());
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+	                    }
+	                }
+	            }
+	        });
 	        main.getListe().getChildren().add(sample);
 	        main.getListeImage().add(sample);
 	        
