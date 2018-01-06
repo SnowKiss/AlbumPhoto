@@ -385,6 +385,8 @@ public class PhotoController {
 	{
 		this.getSelectedImage().setRotate(this.getSelectedImage().getRotate() + 90); 
 		this.getCadre().setRotate(90);
+		this.setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
+		this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
 	}
 
 	
