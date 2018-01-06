@@ -26,7 +26,6 @@ public class PhotoController {
 	private Controller controleur;
 	private Boolean bordure;
 	private PhotoSimple photo;
-	private ToolBarController toolbarcontrol;
 
 	public PhotoController(PhotoSimple photo) {
 		
@@ -39,7 +38,6 @@ public class PhotoController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		
 		this.setBordure(false);
 		
@@ -60,6 +58,8 @@ public class PhotoController {
 		//this.getCadre().setFill(Color.TRANSPARENT);
 		//this.getCadre().setStroke(Color.TRANSPARENT);
 		//this.getCadre().setStrokeWidth(0);
+		
+		
 		this.setControleur(new Controller());
 	}
 
@@ -141,10 +141,11 @@ public class PhotoController {
 
 	public void ajouterCadre()
 	{
+		if(this.isBordure()){
 			this.getCadre().setFill(Color.TRANSPARENT);
 			this.getCadre().setStroke(Color.BLUE);
 			this.getCadre().setStrokeWidth(10);
-			this.getCadre().relocate(this.getSelectedImage().getX()-this.getCadre().getStrokeWidth()/2, this.getSelectedImage().getY()-this.getCadre().getStrokeWidth()/2);
+			this.getCadre().relocate(this.getSelectedImage().getX()-this.getCadre().getStrokeWidth()/2, this.getSelectedImage().getY()-this.getCadre().getStrokeWidth()/2);}
 
 	}
 	
@@ -158,7 +159,7 @@ public class PhotoController {
 	
 	
 	public void drawWithJavaFX(Init init) {
-		this.toolbarcontrol = new ToolBarController(this, init);
+		
 		// afficher l'image
 		this.getSelectedImage().setX(this.getPhoto().getX());
 		this.getSelectedImage().setY(this.getPhoto().getY());
@@ -207,39 +208,8 @@ public class PhotoController {
 	    });
                 
         this.getSelectedImage().addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
-        	try {
-				this.toolbarcontrol.finalize();
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        	//controleur.afficherToolbar(selectedImage);
-        	// on affiche la ToolBar
-        	/*init.getRoot().lookup("#toolBar").setManaged(true);
-        	init.getRoot().lookup("#toolBar").setVisible(true);
-        	
-        	
-        	init.getRoot().lookup("#checkbox_bordure");        	*/
-        	
-   /*
-        	check.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                public void changed(ObservableValue<? extends Boolean> ov,
-                        Boolean old_val, Boolean new_val) {
-                		if(check.isSelected())
-                		{
-                			getSelectedImage().
-                			//init.getRoot().lookup("#choicebox_bordure").getStyleClass().add("border-simple");
-                			//getSelectedImage().getStyleClass().add("border-simple");
-                		}
-                		else
-                		{
-                			//init.getRoot().lookup("#choicebox_bordure").getStyleClass().remove("border-simple");
-                			//getSelectedImage().getStyleClass().remove("border-simple");
-                		}
-                		
-                    }
-                });*/
-        
+        	init.getToolbar().init(this, init);
+        	event.consume();
         });
 
         //this.setCadre(true);

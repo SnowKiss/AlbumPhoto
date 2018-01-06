@@ -29,6 +29,7 @@ public class Init {
 	private VBox liste;
 	private List<ImageView> listeImage;
 	private Controller photoController;
+	private ToolBarController toolbar;
 
 	public Init(Stage primaryStage) {
 		FXMLLoader loader = new FXMLLoader();
@@ -56,12 +57,15 @@ public class Init {
 	            }
 	        }
 	    });
+		
+		this.toolbar = new ToolBarController();
 		this.setListeImage(new ArrayList<ImageView>());
 		this.setListe(new VBox());
 		VBox rContainer = new VBox();
 		Button bImporter = new Button("Importer");
 		ScrollPane sPane = new ScrollPane();
 		Group listeGroupe = new Group();
+		
 		
 		this.getListe().setSpacing(20);
 		rContainer.setSpacing(20);
@@ -89,6 +93,8 @@ public class Init {
 					
 		this.getRoot().setRight(rContainer);
 
+		
+		
 		primaryStage.setScene(primaryStage.getScene());
 		primaryStage.setResizable(false);
 		primaryStage.show();
@@ -148,6 +154,15 @@ public class Init {
 
 	public void setPhotoController(Controller photoController) {
 		this.photoController = photoController;
+	}
+
+		
+	public ToolBarController getToolbar() {
+		return toolbar;
+	}
+
+	public void setToolbar(ToolBarController toolbar) {
+		this.toolbar = toolbar;
 	}
 
 	public void initAlbum(String title) {
