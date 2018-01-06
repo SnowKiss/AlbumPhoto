@@ -49,6 +49,7 @@ public class PhotoController {
 		this.getSelectedImage().setPreserveRatio(true);
 		this.getSelectedImage().setFitWidth(300);
 		this.getSelectedImage().fitWidthProperty();
+		this.getSelectedImage().fitHeightProperty();
 
 		this.setWidth(300);
 		this.setHeight((this.getWidth() / this.getImage().getWidth()) * this.getImage().getHeight());
@@ -304,16 +305,7 @@ public class PhotoController {
 		this.setT(new Text(this.getSelectedImage().getX() + 20, this.getSelectedImage().getY() + this.getHeight() + 20,
 				this.getPhoto().getTitre()));
 
-		// définir un cadre
-		// this.ajouterCadre(true);
-		// ajouter un effet de profondeur
-		/*
-		 * DropShadow borderGlow= new DropShadow(); borderGlow.setOffsetY(0f);
-		 * borderGlow.setOffsetX(0f); borderGlow.setColor(Color.RED);
-		 * borderGlow.setWidth(80); borderGlow.setHeight(80);
-		 * this.getCadre().setEffect(borderGlow);
-		 */
-
+		
 		this.getPhoto().setX(this.getSelectedImage().getX());
 		this.getPhoto().setY(this.getSelectedImage().getY());
 
@@ -351,6 +343,48 @@ public class PhotoController {
 
 		// this.setCadre(true);
 		init.getRoot().getChildren().addAll(this.getT(), this.getCadre(), this.getSelectedImage());
+	}
+
+	public void modifierHauteurImage(String hauteur) {
+		try {
+			this.getSelectedImage().setFitHeight(Integer.parseInt(hauteur));
+			this.setHeight(Integer.parseInt(hauteur));
+			this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
+			this.getCadre().setHeight(this.getHeight());
+			this.getCadre().setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
+		} catch (Exception e) {
+		}
+		
+	}
+	
+	public void modifierLargeurImage(String largeur) {
+		
+		try {
+			this.getSelectedImage().setFitWidth(Integer.parseInt(largeur));
+			this.setWidth(Integer.parseInt(largeur));
+			this.setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
+			this.getCadre().setWidth(this.getWidth());
+			this.getCadre().setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
+		} catch (Exception e) {
+		}
+		
+	}
+	
+	public void setRatio(Boolean ratio)
+	{
+		if(ratio){
+			this.getSelectedImage().setPreserveRatio(true);
+		}
+		else
+		{
+			this.getSelectedImage().setPreserveRatio(false);
+		}
+	}
+	
+	public void rotate()
+	{
+		this.getSelectedImage().setRotate(this.getSelectedImage().getRotate() + 90); 
+		this.getCadre().setRotate(90);
 	}
 
 	
