@@ -2,25 +2,26 @@ package controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 
 public class ToolBarController {
 	private PhotoController photo;
 	private Init init;
-	private CheckBox checkbox;
-	private Boolean ignore;
-	private ChoiceBox<String> choiceBoxCouleur;
+	private CheckBox checkbox_cadre;
+	private Boolean ignoreCadre;
+	private Boolean ignoreOmbre;
+	private ChoiceBox<String> choiceBoxCouleurCadre;
 	private TextField tailleCadre;
+	private CheckBox checkbox_ombre;
+	private ChoiceBox<String> choiceBoxCouleurOmbre;
+	private TextField tailleOmbre;
 
 	public ToolBarController() {
 		super();
-		this.ignore = false;
+		this.ignoreCadre = false;
+		this.ignoreOmbre = false;
 
 	}
 
@@ -32,20 +33,23 @@ public class ToolBarController {
 	public void init(PhotoController photoController, Init init) {
 		this.init = init;
 		this.photo = photoController;
+		
 		afficherToolBar();
-		this.checkbox = (CheckBox) init.getRoot().lookup("#checkbox_cadre");
-		this.checkbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+		
+		/* Cadre */
+		this.checkbox_cadre = (CheckBox) init.getRoot().lookup("#checkbox_cadre");
+		this.checkbox_cadre.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-				verif();
-				if (!ignore) {
+				verifCadre();
+				if (!ignoreCadre) {
 					modifierCadre();
 				}
 			}
 
 		});
 		
-		this.choiceBoxCouleur = (ChoiceBox) init.getRoot().lookup("#choicebox_couleur_cadre");
-		this.choiceBoxCouleur.getSelectionModel()
+		this.choiceBoxCouleurCadre = (ChoiceBox) init.getRoot().lookup("#choicebox_couleur_cadre");
+		this.choiceBoxCouleurCadre.getSelectionModel()
 	    .selectedItemProperty()
 	    .addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> modifierCouleurCadre(newValue) );
 
@@ -61,66 +65,159 @@ public class ToolBarController {
 		    }
 		});
 		
+		/* Ombre */
+		this.checkbox_ombre = (CheckBox) init.getRoot().lookup("#checkbox_ombre");
+		this.checkbox_ombre.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
+				verifOmbre();
+				if (!ignoreOmbre) {
+					modifierOmbre();
+				}
+			}
+
+		});
 		
-		cocher();
+		this.choiceBoxCouleurOmbre = (ChoiceBox) init.getRoot().lookup("#choicebox_couleur_ombre");
+		this.choiceBoxCouleurOmbre.getSelectionModel()
+	    .selectedItemProperty()
+	    .addListener( (ObservableValue<? extends String> observable, String oldValue, String newValue) -> modifierCouleurOmbre(newValue) );
+
+		
+		this.tailleOmbre = (TextField) init.getRoot().lookup("#taille_ombre");
+		this.tailleOmbre.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable,
+		            String oldValue, String newValue) {
+		    	if (newValue.matches("\\d*")) {
+		    		modifierTailleOmbre(newValue);
+		    	}
+		    }
+		});
+		
+		
+		cocherCadre();
+		cocherOmbre();
 
 		
 	}
 
-	protected void modifierTailleCadre(String newValue) {
+
+	// Cette fonction permet de mettre à jour la Checkbox du cadre en fonction de l'image sélectionnée
+	public void cocherCadre() {
+		// On ignore l'évènement
+		ignoreCadre = true;
+
+		if (photo.isCadre()) {
+			checkbox_cadre.setSelected(true);
+			choiceBoxCouleurCadre.setDisable(false);
+			tailleCadre.setDisable(false);
+			checkbox_ombre.setDisable(false);
+		} else {
+			checkbox_cadre.setSelected(false);
+			choiceBoxCouleurCadre.setDisable(true);
+			tailleCadre.setDisable(true);
+			checkbox_ombre.setDisable(true);
+		}
+	}
+
+	private void modifierCadre() {
+		if (checkbox_cadre.isSelected()) {
+			photo.setCadre(true);
+			photo.ajouterCadre();
+			choiceBoxCouleurCadre.setDisable(false);
+			tailleCadre.setDisable(false);
+			checkbox_ombre.setDisable(false);
+		} else {
+			photo.setCadre(false);
+			photo.supprimerCadre();
+			checkbox_cadre.setSelected(false);
+			choiceBoxCouleurCadre.setDisable(true);
+			tailleCadre.setDisable(true);
+			checkbox_ombre.setDisable(true);
+		}
+	}
+
+	public void modifierTailleCadre(String newValue) {
 		photo.modifierTailleCadre(newValue);
 		
 	}
 
 	public void modifierCouleurCadre(String newValue) {
-		if(photo.isBordure()) {
+		if(photo.isCadre()) {
 			photo.modifierCouleurCadre(newValue);
 		}
 	}
-
-	// Cette fonction permet de mettre à jour la Checkbox en fonction de l'image
-	// sélectionnée
-	private void cocher() {
-		// On ignore l'évènement
-		ignore = true;
-
-		if (photo.isBordure()) {
-			checkbox.setSelected(true);
-			choiceBoxCouleur.setDisable(false);
-			tailleCadre.setDisable(false);
-		} else {
-			checkbox.setSelected(false);
-			choiceBoxCouleur.setDisable(true);
-			tailleCadre.setDisable(true);
-		}
-	}
-
-	private void modifierCadre() {
-		if (checkbox.isSelected()) {
-			photo.setBordure(true);
-			photo.ajouterCadre();
-			choiceBoxCouleur.setDisable(false);
-			tailleCadre.setDisable(false);
-		} else {
-			photo.setBordure(false);
-			photo.supprimerCadre();
-			checkbox.setSelected(false);
-			choiceBoxCouleur.setDisable(true);
-			tailleCadre.setDisable(true);
-		}
-	}
-
-	private void verif() {
-		ignore = false;
-		if (!checkbox.isSelected() && !photo.isBordure()) {
+	
+	private void verifCadre() {
+		ignoreCadre = false;
+		if (!checkbox_cadre.isSelected() && !photo.isCadre()) {
 			// on ignore et on décoche
-			ignore = true;
-			checkbox.setSelected(false);
+			ignoreCadre = true;
+			checkbox_cadre.setSelected(false);
 		}
-		if (checkbox.isSelected() && photo.isBordure()) {
+		if (checkbox_cadre.isSelected() && photo.isCadre()) {
 			// on ingore et on coche
-			ignore = true;
-			checkbox.setSelected(true);
+			ignoreCadre = true;
+			checkbox_cadre.setSelected(true);
+		}
+	}
+	
+
+	
+	
+	// Cette fonction permet de mettre à jour la Checkbox du cadre en fonction de l'image sélectionnée
+	private void cocherOmbre() {
+		// On ignore l'évènement
+		ignoreOmbre = true;
+
+		if (photo.isOmbre()) {
+			checkbox_ombre.setSelected(true);
+			choiceBoxCouleurOmbre.setDisable(false);
+			tailleOmbre.setDisable(false);
+		} else {
+			checkbox_ombre.setSelected(false);
+			choiceBoxCouleurOmbre.setDisable(true);
+			tailleOmbre.setDisable(true);
+		}
+	}
+
+	private void modifierOmbre() {
+		if (checkbox_ombre.isSelected()) {
+			photo.setOmbre(true);
+			photo.ajouterOmbre();
+			choiceBoxCouleurOmbre.setDisable(false);
+			tailleOmbre.setDisable(false);
+		} else {
+			photo.setOmbre(false);
+			photo.supprimerOmbre();
+			checkbox_ombre.setSelected(false);
+			choiceBoxCouleurOmbre.setDisable(true);
+			tailleOmbre.setDisable(true);
+		}
+	}
+
+	public void modifierTailleOmbre(String newValue) {
+		photo.modifierTailleOmbre(newValue);
+		
+	}
+
+	public void modifierCouleurOmbre(String newValue) {
+		if(photo.isOmbre()) {
+			photo.modifierCouleurOmbre(newValue);
+		}
+	}
+	
+	private void verifOmbre() {
+		ignoreOmbre = false;
+		if (!checkbox_ombre.isSelected() && !photo.isOmbre()) {
+			// on ignore et on décoche
+			ignoreOmbre = true;
+			checkbox_ombre.setSelected(false);
+		}
+		if (checkbox_ombre.isSelected() && photo.isOmbre()) {
+			// on ingore et on coche
+			ignoreOmbre = true;
+			checkbox_ombre.setSelected(true);
 		}
 	}
 

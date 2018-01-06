@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,8 +25,10 @@ public class PhotoController {
 	private double width;
 	private double height;
 	private Controller controleur;
-	private Boolean bordure;
+	private Boolean possede_cadre; // Permet de savoir si l'image possède un cadre ou non
+	private Boolean possede_ombre; // Permet de savoir si l'image possède un cadre ou non
 	private PhotoSimple photo;
+	private DropShadow borderGlow;
 
 	public PhotoController(PhotoSimple photo) {
 
@@ -39,7 +42,8 @@ public class PhotoController {
 			e.printStackTrace();
 		}
 
-		this.setBordure(false);
+		this.setCadre(false);
+		this.setOmbre(false);
 
 		this.setSelectedImage(new ImageView(this.getImage()));
 		this.getSelectedImage().setPreserveRatio(true);
@@ -54,6 +58,7 @@ public class PhotoController {
 		this.getCadre().setStroke(Color.TRANSPARENT);
 		this.getCadre().setStrokeWidth(0);
 
+		this.borderGlow = new DropShadow();
 		// this.setCadre(new Rectangle(this.getWidth(), this.getHeight()));
 		// this.getCadre().setFill(Color.TRANSPARENT);
 		// this.getCadre().setStroke(Color.TRANSPARENT);
@@ -110,12 +115,12 @@ public class PhotoController {
 		this.controleur = controleur;
 	}
 
-	public Boolean isBordure() {
-		return bordure;
+	public Boolean isCadre() {
+		return possede_cadre;
 	}
 
-	public void setBordure(Boolean bordure) {
-		this.bordure = bordure;
+	public void setCadre(Boolean cadre) {
+		this.possede_cadre = cadre;
 	}
 
 	public PhotoSimple getPhoto() {
@@ -126,8 +131,8 @@ public class PhotoController {
 		this.photo = photo;
 	}
 
-	public Boolean getBordure() {
-		return bordure;
+	public Boolean getPossedeCadre() {
+		return possede_cadre;
 	}
 
 	public Image getImage() {
@@ -137,9 +142,22 @@ public class PhotoController {
 	public void setImage(Image image) {
 		this.image = image;
 	}
+	
+	
+	public Boolean getPossede_ombre() {
+		return possede_ombre;
+	}
+
+	public void setOmbre(Boolean possede_ombre) {
+		this.possede_ombre = possede_ombre;
+	}
+	
+	public Boolean isOmbre() {
+		return possede_ombre;
+	}
 
 	public void ajouterCadre() {
-		if (this.isBordure()) {
+		if (this.isCadre()) {
 			this.getCadre().setFill(Color.TRANSPARENT);
 			this.getCadre().setStroke(Color.BLUE);
 			this.getCadre().setStrokeWidth(10);
@@ -195,6 +213,85 @@ public class PhotoController {
 			break;
 		}
 		this.getCadre().setStroke(tmp);
+	}
+	
+	public void modifierTailleCadre(String newValue) {
+		try {
+			this.getCadre().setStrokeWidth(Integer.parseInt(newValue));
+		} catch (Exception e) {
+
+		}
+
+	}
+	
+	public void modifierTailleOmbre(String newValue) {
+		try {
+			this.borderGlow.setHeight(Integer.parseInt(newValue));
+		} catch (Exception e) {
+
+		}
+
+	}
+	
+	public void ajouterOmbre() {
+		if (this.isOmbre()) {
+			borderGlow.setOffsetY(0f);
+			borderGlow.setOffsetX(0f); borderGlow.setColor(Color.BLACK);
+			borderGlow.setWidth(80); borderGlow.setHeight(80);
+			this.getCadre().setEffect(borderGlow);
+			this.getCadre().relocate(this.getSelectedImage().getX() - this.getCadre().getStrokeWidth() / 2,
+					this.getSelectedImage().getY() - this.getCadre().getStrokeWidth() / 2);
+		}
+
+	}
+
+	public void supprimerOmbre() {
+		borderGlow.setOffsetY(0f);
+		borderGlow.setOffsetX(0f); borderGlow.setColor(Color.TRANSPARENT);
+		borderGlow.setWidth(0); borderGlow.setHeight(0);
+		this.getCadre().setEffect(borderGlow);
+		this.getCadre().relocate(this.getSelectedImage().getX() - this.getCadre().getStrokeWidth() / 2,
+				this.getSelectedImage().getY() - this.getCadre().getStrokeWidth() / 2);
+	}
+
+	public void modifierCouleurOmbre(String color) {
+		Color tmp = null;
+		switch (color) {
+		case "AQUA":
+			tmp = Color.AQUA;
+			break;
+		case "BLACK":
+			tmp = Color.BLACK;
+			break;
+		case "BLUE":
+			tmp = Color.BLUE;
+			break;
+		case "BLUEVIOLET":
+			tmp = Color.BLUEVIOLET;
+			break;
+		case "BROWN":
+			tmp = Color.BROWN;
+			break;
+		case "CYAN":
+			tmp = Color.CYAN;
+			break;
+		case "DARKBLUE":
+			tmp = Color.DARKBLUE;
+			break;
+		case "GREEN":
+			tmp = Color.GREEN;
+			break;
+		case "RED":
+			tmp = Color.RED;
+			break;
+		case "YELLOW":
+			tmp = Color.YELLOW;
+			break;
+		case "TEAL":
+			tmp = Color.TEAL;
+			break;
+		}
+		borderGlow.setColor(tmp);
 	}
 
 	public void drawWithJavaFX(Init init) {
@@ -256,13 +353,6 @@ public class PhotoController {
 		init.getRoot().getChildren().addAll(this.getT(), this.getCadre(), this.getSelectedImage());
 	}
 
-	public void modifierTailleCadre(String newValue) {
-		try {
-			this.getCadre().setStrokeWidth(Integer.parseInt(newValue));
-		} catch (Exception e) {
-
-		}
-
-	}
+	
 
 }

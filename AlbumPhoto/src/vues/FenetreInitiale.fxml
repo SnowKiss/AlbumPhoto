@@ -12,6 +12,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="700.0" prefWidth="1400.0" styleClass="background" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
    <top>
@@ -44,9 +45,15 @@
    <left>
       <ToolBar id="toolBar" orientation="VERTICAL" prefHeight="668.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
-            <Label text="Cadre :" />
+            <Label text="Cadre :">
+               <font>
+                  <Font name="Baskerville Old Face" size="21.0" />
+               </font></Label>
             <CheckBox id="checkbox_cadre" mnemonicParsing="false" />
-            <Label text="Couleur du cadre : " />
+            <Label text="Couleur du cadre : ">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font></Label>
             <ChoiceBox id="choicebox_couleur_cadre" prefWidth="150.0">
             	<items>
             		<FXCollections fx:factory="observableArrayList">
@@ -64,8 +71,49 @@
             		</FXCollections>
             	</items>
             </ChoiceBox>
-            <Label text="Taille du cadre : " />
+            <Label text="Taille du cadre : ">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font></Label>
             <TextField id="textField_taille" />
+            <Label text="Rajouter une ombre : ">
+               <font>
+                  <Font name="Baskerville Old Face" size="20.0" />
+               </font>
+            </Label>
+            <CheckBox id="checkbox_ombre" mnemonicParsing="false">
+               <font>
+                  <Font name="Baskerville Old Face" size="12.0" />
+               </font>
+            </CheckBox>
+            <Label text="Couleur de l'ombre : ">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font>
+            </Label>
+            <ChoiceBox id="choicebox_couleur_ombre" prefWidth="150.0">
+            <items>
+            		<FXCollections fx:factory="observableArrayList">
+            			<String fx:value="AQUA" />
+            			<String fx:value="BLACK" />
+            			<String fx:value="BLUE" />
+            			<String fx:value="BLUEVIOLET" />
+            			<String fx:value="BROWN" />
+            			<String fx:value="CYAN" />
+            			<String fx:value="DARKBLUE" />
+            			<String fx:value="GREEN" />
+            			<String fx:value="RED" />
+            			<String fx:value="YELLOW" />
+            			<String fx:value="TEAL" />
+            		</FXCollections>
+            	</items>
+            </ChoiceBox>
+            <Label text="Taille de l'ombre">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font>
+            </Label>
+            <TextField id="taille_ombre" />
             <Separator prefWidth="200.0" />     
         </items>
       </ToolBar>
