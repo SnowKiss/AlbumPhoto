@@ -18,6 +18,7 @@ public class PhotoSimple implements Photo {
 	double x;
 	double y;
 	PhotoController photoController;
+	Cadre cadre;
 
 	// Constructeur	
 	public PhotoSimple(File photo, String titre) {
@@ -75,5 +76,14 @@ public class PhotoSimple implements Photo {
 	public void setPhotoController(PhotoController photoController) {
 		this.photoController = photoController;
 	}
+
+	public Cadre getCadre() {
+		return cadre;
+	}
+
+	public void setCadre(Cadre cadre) {
+		this.cadre = cadre;
+	}
 	
+		
 }

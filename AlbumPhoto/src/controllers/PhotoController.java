@@ -6,12 +6,8 @@ import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -30,6 +26,7 @@ public class PhotoController {
 	private Controller controleur;
 	private Boolean bordure;
 	private PhotoSimple photo;
+	private ToolBarController toolbarcontrol;
 
 	public PhotoController(PhotoSimple photo) {
 		
@@ -58,6 +55,11 @@ public class PhotoController {
 		this.getCadre().setFill(Color.TRANSPARENT);
 		this.getCadre().setStroke(Color.TRANSPARENT);
 		this.getCadre().setStrokeWidth(0);
+		
+		//this.setCadre(new Rectangle(this.getWidth(), this.getHeight()));
+		//this.getCadre().setFill(Color.TRANSPARENT);
+		//this.getCadre().setStroke(Color.TRANSPARENT);
+		//this.getCadre().setStrokeWidth(0);
 		this.setControleur(new Controller());
 	}
 
@@ -137,7 +139,26 @@ public class PhotoController {
 		this.image = image;
 	}
 
+	public void ajouterCadre()
+	{
+			this.getCadre().setFill(Color.TRANSPARENT);
+			this.getCadre().setStroke(Color.BLUE);
+			this.getCadre().setStrokeWidth(10);
+			this.getCadre().relocate(this.getSelectedImage().getX()-this.getCadre().getStrokeWidth()/2, this.getSelectedImage().getY()-this.getCadre().getStrokeWidth()/2);
+
+	}
+	
+	public void supprimerCadre()
+	{
+		this.getCadre().setFill(Color.TRANSPARENT);
+		this.getCadre().setStroke(Color.TRANSPARENT);
+		this.getCadre().setStrokeWidth(0);
+		this.getCadre().relocate(this.getSelectedImage().getX()-this.getCadre().getStrokeWidth()/2, this.getSelectedImage().getY()-this.getCadre().getStrokeWidth()/2);
+	}
+	
+	
 	public void drawWithJavaFX(Init init) {
+		this.toolbarcontrol = new ToolBarController(this, init);
 		// afficher l'image
 		this.getSelectedImage().setX(this.getPhoto().getX());
 		this.getSelectedImage().setY(this.getPhoto().getY());
@@ -146,22 +167,17 @@ public class PhotoController {
 		this.setT(new Text (this.getSelectedImage().getX()+20, this.getSelectedImage().getY()+this.getHeight()+20, this.getPhoto().getTitre()));
         
         // définir un cadre
-		this.setCadre(new Rectangle(this.getWidth(), this.getHeight()));
-		this.getCadre().setFill(Color.TRANSPARENT);
-		this.getCadre().setStroke(Color.BLUE);
-		this.getCadre().setStrokeWidth(10);
-		this.getCadre().relocate(this.getSelectedImage().getX()-this.getCadre().getStrokeWidth()/2, this.getSelectedImage().getY()-this.getCadre().getStrokeWidth()/2);
-        
+        //this.ajouterCadre(true);
         // ajouter un effet de profondeur
-        DropShadow borderGlow= new DropShadow();
+        /*DropShadow borderGlow= new DropShadow();
 		borderGlow.setOffsetY(0f);
 		borderGlow.setOffsetX(0f);
 		borderGlow.setColor(Color.RED);
 		borderGlow.setWidth(80);
 		borderGlow.setHeight(80);
 		this.getCadre().setEffect(borderGlow);
+		*/
 		
-		init.getRoot().getChildren().addAll(this.getT(),this.getCadre(),this.getSelectedImage());
                 
         this.getPhoto().setX(this.getSelectedImage().getX());
         this.getPhoto().setY(this.getSelectedImage().getY());
@@ -191,32 +207,43 @@ public class PhotoController {
 	    });
                 
         this.getSelectedImage().addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
+        	try {
+				this.toolbarcontrol.finalize();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         	//controleur.afficherToolbar(selectedImage);
         	// on affiche la ToolBar
-        	init.getRoot().lookup("#toolBar").setManaged(true);
+        	/*init.getRoot().lookup("#toolBar").setManaged(true);
         	init.getRoot().lookup("#toolBar").setVisible(true);
         	
-        	CheckBox check = (CheckBox) init.getRoot().lookup("#checkbox_bordure");
-   
+        	
+        	init.getRoot().lookup("#checkbox_bordure");        	*/
+        	
+   /*
         	check.selectedProperty().addListener(new ChangeListener<Boolean>() {
                 public void changed(ObservableValue<? extends Boolean> ov,
                         Boolean old_val, Boolean new_val) {
                 		if(check.isSelected())
                 		{
-                			init.getRoot().lookup("#choicebox_bordure").getStyleClass().add("border-simple");
-                			getSelectedImage().getStyleClass().add("border-simple");
+                			getSelectedImage().
+                			//init.getRoot().lookup("#choicebox_bordure").getStyleClass().add("border-simple");
+                			//getSelectedImage().getStyleClass().add("border-simple");
                 		}
                 		else
                 		{
-                			init.getRoot().lookup("#choicebox_bordure").getStyleClass().remove("border-simple");
-                			getSelectedImage().getStyleClass().remove("border-simple");
+                			//init.getRoot().lookup("#choicebox_bordure").getStyleClass().remove("border-simple");
+                			//getSelectedImage().getStyleClass().remove("border-simple");
                 		}
                 		
                     }
-                });
+                });*/
         
         });
-		
+
+        //this.setCadre(true);
+        init.getRoot().getChildren().addAll(this.getT(),this.getCadre(),this.getSelectedImage());
 	}
 	
 	
