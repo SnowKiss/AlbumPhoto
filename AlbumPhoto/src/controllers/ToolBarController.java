@@ -35,8 +35,8 @@ public class ToolBarController {
 	public void afficherToolBar() {
 		this.init.getRoot().lookup("#toolBar").setManaged(true);
 		this.init.getRoot().lookup("#toolBar").setVisible(true);
-		//this.checkbox_taille = (CheckBox) init.getRoot().lookup("#checkbox_taille");
-		//this.checkbox_taille.setSelected(true);
+		this.checkbox_taille = (CheckBox) init.getRoot().lookup("#checkbox_taille");
+		this.checkbox_taille.setSelected(true);
 	}
 
 	public void init(PhotoController photoController, Init init) {
@@ -121,16 +121,17 @@ public class ToolBarController {
 		});
 
 		
-		/*
+		
 		this.checkbox_taille.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
 				photo.setRatio(new_val);
 			}
 
-		});*/
+		});
 
 		/* Rotation */
 		this.bouton_rotation = (Button) init.getRoot().lookup("#btn_rotation");
+		this.bouton_rotation.setVisible(false);
 		this.bouton_rotation.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
