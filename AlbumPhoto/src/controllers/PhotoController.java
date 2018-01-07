@@ -25,8 +25,10 @@ public class PhotoController {
 	private double width;
 	private double height;
 	private Controller controleur;
-	private Boolean possede_cadre; // Permet de savoir si l'image possède un cadre ou non
-	private Boolean possede_ombre; // Permet de savoir si l'image possède un cadre ou non
+	private Boolean possede_cadre; // Permet de savoir si l'image possède un
+									// cadre ou non
+	private Boolean possede_ombre; // Permet de savoir si l'image possède un
+									// cadre ou non
 	private PhotoSimple photo;
 	private DropShadow borderGlow;
 
@@ -46,7 +48,7 @@ public class PhotoController {
 		this.setOmbre(false);
 
 		this.setSelectedImage(new ImageView(this.getImage()));
-		
+
 		this.getSelectedImage().setPreserveRatio(true);
 		this.getSelectedImage().setFitWidth(300);
 		this.setWidth(300);
@@ -63,8 +65,6 @@ public class PhotoController {
 		this.setControleur(new Controller());
 	}
 
-	
-
 	public void drawWithJavaFX(Init init) {
 
 		// afficher l'image
@@ -75,7 +75,6 @@ public class PhotoController {
 		this.setT(new Text(this.getSelectedImage().getX() + 20, this.getSelectedImage().getY() + this.getHeight() + 20,
 				this.getPhoto().getTitre()));
 
-		
 		this.getPhoto().setX(this.getSelectedImage().getX());
 		this.getPhoto().setY(this.getSelectedImage().getY());
 
@@ -124,7 +123,7 @@ public class PhotoController {
 		}
 
 	}
-	
+
 	public void supprimerCadre() {
 		this.getCadre().setFill(Color.TRANSPARENT);
 		this.getCadre().setStroke(Color.TRANSPARENT);
@@ -172,7 +171,7 @@ public class PhotoController {
 		}
 		this.getCadre().setStroke(tmp);
 	}
-	
+
 	public void modifierTailleCadre(String newValue) {
 		try {
 			this.getCadre().setStrokeWidth(Integer.parseInt(newValue));
@@ -181,14 +180,14 @@ public class PhotoController {
 		}
 
 	}
-	
-	
-	
+
 	public void ajouterOmbre() {
 		if (this.isOmbre()) {
 			borderGlow.setOffsetY(0f);
-			borderGlow.setOffsetX(0f); borderGlow.setColor(Color.BLACK);
-			borderGlow.setWidth(80); borderGlow.setHeight(80);
+			borderGlow.setOffsetX(0f);
+			borderGlow.setColor(Color.BLACK);
+			borderGlow.setWidth(80);
+			borderGlow.setHeight(80);
 			this.getCadre().setEffect(borderGlow);
 			this.getCadre().relocate(this.getSelectedImage().getX() - this.getCadre().getStrokeWidth() / 2,
 					this.getSelectedImage().getY() - this.getCadre().getStrokeWidth() / 2);
@@ -198,13 +197,15 @@ public class PhotoController {
 
 	public void supprimerOmbre() {
 		borderGlow.setOffsetY(0f);
-		borderGlow.setOffsetX(0f); borderGlow.setColor(Color.TRANSPARENT);
-		borderGlow.setWidth(0); borderGlow.setHeight(0);
+		borderGlow.setOffsetX(0f);
+		borderGlow.setColor(Color.TRANSPARENT);
+		borderGlow.setWidth(0);
+		borderGlow.setHeight(0);
 		this.getCadre().setEffect(borderGlow);
 		this.getCadre().relocate(this.getSelectedImage().getX() - this.getCadre().getStrokeWidth() / 2,
 				this.getSelectedImage().getY() - this.getCadre().getStrokeWidth() / 2);
 	}
-	
+
 	public void modifierTailleOmbre(String newValue) {
 		try {
 			this.borderGlow.setHeight(Integer.parseInt(newValue));
@@ -255,7 +256,6 @@ public class PhotoController {
 		borderGlow.setColor(tmp);
 	}
 
-	
 	public void modifierHauteurImage(String hauteur) {
 		try {
 			this.getSelectedImage().setFitWidth(0);
@@ -265,14 +265,14 @@ public class PhotoController {
 			this.getCadre().setHeight(this.getHeight());
 			this.getCadre().setWidth(this.getWidth());
 			majTitre();
-		
+
 		} catch (Exception e) {
 		}
-		
+
 	}
-	
+
 	public void modifierLargeurImage(String largeur) {
-		
+
 		try {
 			this.getSelectedImage().setFitHeight(0);
 			this.getSelectedImage().setFitWidth(Integer.parseInt(largeur));
@@ -281,23 +281,20 @@ public class PhotoController {
 			this.getCadre().setWidth(this.getWidth());
 			this.getCadre().setHeight(this.getHeight());
 			majTitre();
-	
+
 		} catch (Exception e) {
 		}
-		
+
 	}
-	
-	public void setRatio(Boolean ratio)
-	{
-		if(ratio){
+
+	public void setRatio(Boolean ratio) {
+		if (ratio) {
 			this.getSelectedImage().setPreserveRatio(true);
 			this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
 			this.setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
 			this.getCadre().setWidth(this.getWidth());
 			this.getCadre().setHeight(this.getHeight());
-		}
-		else
-		{
+		} else {
 			this.getSelectedImage().setPreserveRatio(false);
 			this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
 			this.setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
@@ -305,21 +302,19 @@ public class PhotoController {
 			this.getCadre().setHeight(this.getHeight());
 		}
 	}
-	
-	public void rotate()
-	{
-		this.getSelectedImage().setRotate(this.getSelectedImage().getRotate() + 90); 
+
+	public void rotate() {
+		this.getSelectedImage().setRotate(this.getSelectedImage().getRotate() + 90);
 		this.getCadre().setRotate(90);
 		this.setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
 		this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
 	}
 
-	public void majTitre()
-	{
+	public void majTitre() {
 		this.getT().setX(this.getSelectedImage().getX() + 20);
 		this.getT().setY(this.getSelectedImage().getY() + this.getHeight() + 20);
 	}
-	
+
 	public ImageView getSelectedImage() {
 		return selectedImage;
 	}
@@ -395,7 +390,7 @@ public class PhotoController {
 	public void setImage(Image image) {
 		this.image = image;
 	}
-	
+
 	public Boolean getPossede_ombre() {
 		return possede_ombre;
 	}
@@ -403,7 +398,7 @@ public class PhotoController {
 	public void setOmbre(Boolean possede_ombre) {
 		this.possede_ombre = possede_ombre;
 	}
-	
+
 	public Boolean isOmbre() {
 		return possede_ombre;
 	}

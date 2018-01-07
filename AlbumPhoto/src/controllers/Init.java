@@ -15,6 +15,7 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -46,18 +47,17 @@ public class Init {
 		primaryStage.setScene(new Scene(this.getRoot()));
 		primaryStage.getScene().getStylesheets().add(getClass().getResource("/vues/application.css").toExternalForm());
 		primaryStage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-	        public void handle(KeyEvent event) {
-	        	if(event.getCode() == KeyCode.RIGHT) {
-    	            // page suivante
-	        		photoController.pageSuivante();
-	    	    } 
-	        	else if(event.getCode() == KeyCode.LEFT) {
-	    	        // page precedente
-	        		photoController.pagePrecedente();
-	            }
-	        }
-	    });
-		
+			public void handle(KeyEvent event) {
+				if (event.getCode() == KeyCode.RIGHT) {
+					// page suivante
+					photoController.pageSuivante();
+				} else if (event.getCode() == KeyCode.LEFT) {
+					// page precedente
+					photoController.pagePrecedente();
+				}
+			}
+		});
+
 		this.toolbar = new ToolBarController();
 		this.setListeImage(new ArrayList<ImageView>());
 		this.setListe(new VBox());
@@ -65,35 +65,51 @@ public class Init {
 		Button bImporter = new Button("Importer");
 		ScrollPane sPane = new ScrollPane();
 		Group listeGroupe = new Group();
-		
-		
+
 		this.getListe().setSpacing(20);
 		rContainer.setSpacing(20);
-		
+
 		sPane.setContent(this.getListe());
 		sPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		sPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		sPane.setFitToWidth(true);
 		sPane.setMaxHeight(620);
-		
+
 		bImporter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
 					photoController.importerImages();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-            }
-        });
-		
+			}
+		});
+
 		listeGroupe.getChildren().addAll(sPane);
+
 		rContainer.getChildren().addAll(bImporter, listeGroupe);
-					
+
 		this.getRoot().setRight(rContainer);
 
+		/* Ajout des flèches pour la navigation entre page */
+		ImageView fleche_gauche = (ImageView) this.getRoot().lookup("#fleche_gauche");
+
+		fleche_gauche.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+			photoController.pagePrecedente();
+			event.consume();
+		});
 		
+		ImageView fleche_droite = (ImageView) this.getRoot().lookup("#fleche_droite");
+
+		fleche_droite.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+			photoController.pageSuivante();
+			event.consume();
+		});
+		
+		this.getRoot().getChildren().add(this.getRoot().lookup("#fleche_droite"));
+		this.getRoot().getChildren().add(this.getRoot().lookup("#fleche_gauche"));
 		
 		primaryStage.setScene(primaryStage.getScene());
 		primaryStage.setResizable(false);
@@ -156,7 +172,6 @@ public class Init {
 		this.photoController = photoController;
 	}
 
-		
 	public ToolBarController getToolbar() {
 		return toolbar;
 	}
@@ -169,6 +184,6 @@ public class Init {
 		this.setAlbum(new Album(title));
 		this.setCurrentPage(this.getAlbum().getListePages().get(0));
 		this.getPhotoController().refreshView();
-		
+
 	}
 }
