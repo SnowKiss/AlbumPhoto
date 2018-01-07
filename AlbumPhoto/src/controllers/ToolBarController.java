@@ -24,6 +24,7 @@ public class ToolBarController {
 	private TextField largeurImage;
 	private CheckBox checkbox_taille;
 	private Button bouton_rotation;
+	private Button btn_supprimer;
 
 	public ToolBarController() {
 		super();
@@ -139,6 +140,16 @@ public class ToolBarController {
 			}
 		});
 
+		
+		/* Suppression de l'image */
+		btn_supprimer = (Button) init.getRoot().lookup("#btn_supprimer");
+		this.btn_supprimer.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				photo.supprimerImage();
+			}
+		});
+		
 		cocherCadre();
 		cocherOmbre();
 

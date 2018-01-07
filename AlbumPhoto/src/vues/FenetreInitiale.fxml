@@ -143,6 +143,11 @@
             </Label>
             <CheckBox id="checkbox_taille" mnemonicParsing="false" />
             <Separator prefWidth="200.0" />
+            <Button id="btn_supprimer" mnemonicParsing="false" text="Supprimer">
+               <font>
+                  <Font name="Baskerville Old Face" size="15.0" />
+               </font>
+            </Button>
             <Button id="btn_rotation" mnemonicParsing="false" text="Rotation" textAlignment="CENTER">
                <font>
                   <Font name="Baskerville Old Face" size="15.0" />

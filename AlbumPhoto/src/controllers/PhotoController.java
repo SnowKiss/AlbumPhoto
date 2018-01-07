@@ -7,10 +7,16 @@ import java.util.Optional;
 import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -31,6 +37,7 @@ public class PhotoController {
 									// cadre ou non
 	private PhotoSimple photo;
 	private DropShadow borderGlow;
+	private Init init;
 
 	public PhotoController(PhotoSimple photo) {
 
@@ -66,6 +73,7 @@ public class PhotoController {
 	}
 
 	public void drawWithJavaFX(Init init) {
+		this.init = init;
 
 		// afficher l'image
 		this.getSelectedImage().setX(this.getPhoto().getX());
@@ -111,6 +119,15 @@ public class PhotoController {
 
 		// this.setCadre(true);
 		init.getRoot().getChildren().addAll(this.getT(), this.getCadre(), this.getSelectedImage());
+		
+		// Event pour la suppression d'une image avec touche Suppr du clavier
+		this.init.getRoot().getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event) {
+				if (event.getCode() == KeyCode.DELETE) {
+					supprimerImage();
+				}
+			}
+		});
 	}
 
 	public void ajouterCadre() {
@@ -315,6 +332,22 @@ public class PhotoController {
 		this.getT().setY(this.getSelectedImage().getY() + this.getHeight() + 20);
 	}
 
+	public void supprimerImage() {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Suppression de la photo");
+		alert.setHeaderText(null);
+		alert.setContentText("Voulez-vous vraiment supprimer cette photo ?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() == ButtonType.OK){
+			this.init.getRoot().getChildren().remove(this.getSelectedImage());
+			this.supprimerCadre();
+			this.supprimerOmbre();
+			this.getT().setText(null);
+		} else {
+		}
+	}
+	
 	public ImageView getSelectedImage() {
 		return selectedImage;
 	}
@@ -402,4 +435,6 @@ public class PhotoController {
 	public Boolean isOmbre() {
 		return possede_ombre;
 	}
+
+	
 }

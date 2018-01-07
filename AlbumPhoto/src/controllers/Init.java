@@ -33,6 +33,7 @@ public class Init {
 	private ToolBarController toolbar;
 
 	public Init(Stage primaryStage) {
+		// Ajout de la vue
 		FXMLLoader loader = new FXMLLoader();
 		URL url = getClass().getResource("/vues/FenetreInitiale.fxml");
 		loader.setLocation(url);
@@ -42,10 +43,16 @@ public class Init {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		// Ajout du controleur
 		this.setPhotoController(loader.getController());
 		this.getPhotoController().setInit(this);
+		
+		// On ajoute la scène et la feuille de css
 		primaryStage.setScene(new Scene(this.getRoot()));
 		primaryStage.getScene().getStylesheets().add(getClass().getResource("/vues/application.css").toExternalForm());
+		
+		// Event permettant la navigation entre les pages grâces au touche du clavier
 		primaryStage.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.RIGHT) {
@@ -58,6 +65,7 @@ public class Init {
 			}
 		});
 
+		// Initialisation des différents éléments de l'interface
 		this.toolbar = new ToolBarController();
 		this.setListeImage(new ArrayList<ImageView>());
 		this.setListe(new VBox());
