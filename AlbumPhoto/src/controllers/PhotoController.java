@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -38,6 +39,8 @@ public class PhotoController {
 	private PhotoSimple photo;
 	private DropShadow borderGlow;
 	private Init init;
+	
+	private Boolean toolBarActive = false;
 
 	public PhotoController(PhotoSimple photo) {
 
@@ -113,7 +116,11 @@ public class PhotoController {
 		});
 
 		this.getSelectedImage().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+			if(!toolBarActive)
+			{
 			init.getToolbar().init(this, init);
+			toolBarActive = true;
+			}
 			event.consume();
 		});
 
@@ -281,8 +288,9 @@ public class PhotoController {
 			this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
 			this.getCadre().setHeight(this.getHeight());
 			this.getCadre().setWidth(this.getWidth());
+			TextField tf_largeur = (TextField) this.init.getRoot().lookup("#textField_largeur");
+			tf_largeur.setText(Double.toString(Math.round(this.getSelectedImage().getBoundsInParent().getWidth())));
 			majTitre();
-
 		} catch (Exception e) {
 		}
 
@@ -297,14 +305,16 @@ public class PhotoController {
 			this.setHeight(this.getSelectedImage().getBoundsInParent().getHeight());
 			this.getCadre().setWidth(this.getWidth());
 			this.getCadre().setHeight(this.getHeight());
+			TextField tf_hauteur = (TextField) this.init.getRoot().lookup("#textField_hauteur");
+			tf_hauteur.setText(Double.toString(Math.round(this.getSelectedImage().getBoundsInParent().getHeight())));
 			majTitre();
-
 		} catch (Exception e) {
+			
 		}
 
 	}
 
-	public void setRatio(Boolean ratio) {
+	public void setRatio(Boolean ratio, String derniere_modif) {
 		if (ratio) {
 			this.getSelectedImage().setPreserveRatio(true);
 			this.setWidth(this.getSelectedImage().getBoundsInParent().getWidth());
@@ -318,8 +328,18 @@ public class PhotoController {
 			this.getCadre().setWidth(this.getWidth());
 			this.getCadre().setHeight(this.getHeight());
 		}
+		if(derniere_modif.equals("Largeur"))
+		{
+			TextField tf_hauteur = (TextField) this.init.getRoot().lookup("#textField_hauteur");
+			tf_hauteur.setText(Double.toString(Math.round(this.getSelectedImage().getBoundsInParent().getHeight())));
+		}
+		else
+		{
+			TextField tf_largeur = (TextField) this.init.getRoot().lookup("#textField_largeur");
+			tf_largeur.setText(Double.toString(Math.round(this.getSelectedImage().getBoundsInParent().getWidth())));
+		}
 	}
-
+	
 	public void rotate() {
 		this.getSelectedImage().setRotate(this.getSelectedImage().getRotate() + 90);
 		this.getCadre().setRotate(90);
@@ -435,6 +455,8 @@ public class PhotoController {
 	public Boolean isOmbre() {
 		return possede_ombre;
 	}
+
+	
 
 	
 }

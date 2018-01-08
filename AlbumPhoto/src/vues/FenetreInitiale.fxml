@@ -164,7 +164,7 @@
                   <Image url="@fleche_vers_gauche.png" />
                </image>
             </ImageView>
-            <ImageView id="fleche_droite" fitHeight="50.0" fitWidth="96.0" preserveRatio="true" x="978.0" y="590.0">
+            <ImageView id="fleche_droite" fitHeight="50.0" fitWidth="96.0" preserveRatio="true" x="978.0" y="595.0">
                <image>
                   <Image url="@fleche_vers_droite.png" />
                </image>

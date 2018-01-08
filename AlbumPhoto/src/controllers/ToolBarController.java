@@ -4,10 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
 public class ToolBarController {
 	private PhotoController photo;
@@ -25,6 +27,7 @@ public class ToolBarController {
 	private CheckBox checkbox_taille;
 	private Button bouton_rotation;
 	private Button btn_supprimer;
+	private String derniere_modif;
 
 	public ToolBarController() {
 		super();
@@ -94,9 +97,8 @@ public class ToolBarController {
 		this.tailleOmbre.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (newValue.matches("\\d*")) {
 					modifierTailleOmbre(newValue);
-				}
+			
 			}
 		});
 
@@ -107,6 +109,7 @@ public class ToolBarController {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue.matches("\\d*")) {
 					photo.modifierHauteurImage(newValue);
+					derniere_modif = "Hauteur";
 				}
 			}
 		});
@@ -117,6 +120,7 @@ public class ToolBarController {
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue.matches("\\d*")) {
 					photo.modifierLargeurImage(newValue);
+					derniere_modif = "Largeur";
 				}
 			}
 		});
@@ -125,7 +129,7 @@ public class ToolBarController {
 		
 		this.checkbox_taille.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> ov, Boolean old_val, Boolean new_val) {
-				photo.setRatio(new_val);
+				photo.setRatio(new_val, derniere_modif);
 			}
 
 		});
@@ -171,6 +175,14 @@ public class ToolBarController {
 			choiceBoxCouleurCadre.setDisable(true);
 			tailleCadre.setDisable(true);
 			checkbox_ombre.setDisable(true);
+		}
+		if(photo.getSelectedImage().isPreserveRatio())
+		{
+			checkbox_taille.setSelected(true);
+		}
+		else
+		{
+			checkbox_taille.setSelected(false);
 		}
 	}
 
