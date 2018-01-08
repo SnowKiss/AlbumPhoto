@@ -1,8 +1,3 @@
-/*
- * 		Classe Page : créer, ajout, suppression d'image
- * 
- */
-
 package modeles;
 
 import java.util.ArrayList;
@@ -11,6 +6,10 @@ import java.util.List;
 import controllers.Init;
 import javafx.scene.text.Text;
 
+/**
+ * Classe Page : créer, ajout, suppression d'image
+ *
+ */
 public class Page {
 	
 	// Attributs
@@ -35,16 +34,9 @@ public class Page {
 	
 	public void drawPage(int indexPage, int numberOfPages, Init init)
 	{
-		// draw each photo of the page
-		/*for (Photo p : listePhotos)
-		{
-			p.drawPhoto(main);
-		}
-		*/
-		// add caption of the index of the page
+		// Ajoute le numéro de page
 		Text t = new Text (550, 620, String.valueOf(numero+1) );
 		init.getRoot().getChildren().addAll(t);
-		// add all component to the scene
 	}
 
 	public void addPhoto(Photo photo) {

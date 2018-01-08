@@ -11,6 +11,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * Contrôleur de la toolbar
+ *
+ */
 public class ToolBarController {
 	private PhotoController photo;
 	private Init init;

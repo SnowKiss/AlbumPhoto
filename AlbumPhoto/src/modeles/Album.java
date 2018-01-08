@@ -1,20 +1,21 @@
-/*
- * 		Classe Album : créer, nomme un album, ajoute, supprime une page
- * 
- */
-
 package modeles;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * 		Classe Album : créer, nomme un album, ajoute, supprime une page
+ * 
+ */
 public class Album {
 	
 	// Attributs
 	String nom;
 	List<Page> listePages;
 	
-	// Constructeur
+	/** Constructeur
+	 * 
+	 * @param nom
+	 */
 	public Album(String nom) {
 		super();
 		this.nom = nom;

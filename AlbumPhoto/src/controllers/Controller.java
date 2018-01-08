@@ -23,6 +23,10 @@ import modeles.Page;
 import modeles.Photo;
 import modeles.PhotoSimple;
 
+/**
+ * Contrôleur principal de l'application
+ *
+ */
 public class Controller {
 	private Init init;
 

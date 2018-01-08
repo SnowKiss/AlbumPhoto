@@ -24,6 +24,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import modeles.PhotoSimple;
 
+/** 
+ * Contrôleur d'une photo
+ *
+ */
 public class PhotoController {
 	private Image image;
 	private ImageView selectedImage;
